@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbn6t7eku77kq"]
+
+[ext_resource type="Script" path="res://scripts/Level1.gd" id="1_mj0sj"]
+[ext_resource type="PackedScene" uid="uid://8yelt4i23loh" path="res://models/Plane.escn" id="1_q6p05"]
+[ext_resource type="PackedScene" uid="uid://cjy488m58ja3d" path="res://scenes/GlobalSettings.tscn" id="2_7dsk4"]
+[ext_resource type="PackedScene" uid="uid://cthvwse2lt478" path="res://ui/HUD.tscn" id="3_vfmos"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="4_5scou"]
+[ext_resource type="PackedScene" uid="uid://td7rshffdlhn" path="res://models/Tree1.escn" id="6_nud4i"]
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_mj0sj")
+
+[node name="Terrain" parent="." instance=ExtResource("1_q6p05")]
+
+[node name="GlobalSettings" parent="." instance=ExtResource("2_7dsk4")]
+
+[node name="HUD" parent="." instance=ExtResource("3_vfmos")]
+
+[node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+script = ExtResource("4_5scou")
+
+[node name="Camera3D" type="Camera3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera/Camera3D"]
+
+[node name="Scene" parent="." instance=ExtResource("6_nud4i")]
