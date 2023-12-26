@@ -13,6 +13,7 @@ const POS_TO_GRID_MULT: float = GRID_COUNT_PER_EDGE * 1.0 / TERRAIN_EDGE_LENGTH;
 var is_cursor_on_ui: bool = false;
 var grids: Array[GDGrid] = [];
 var level_settings: GDLevelSettings;
+var air: GDAir;
 
 @onready var global_settings: GDGlobalSettings = $GlobalSettings;
 
@@ -41,13 +42,16 @@ func _base_ready():
 	for x in range(GRID_COUNT_PER_EDGE):
 		for y in range(GRID_COUNT_PER_EDGE):
 			grids.append(GDGrid.new(level_settings));
+	air = GDAir.new(level_settings);
+	HUD.show_air_info(air);
 
 func _on_second_callback():
 	# process all existing trees
 	for tree_node in trees.get_children():
 		var tree: GDTree = tree_node;
 		var grid_pos = _world_pos_to_grid(tree.position);
-		tree.grow(grids[_to_grid_array_coords(grid_pos.x, grid_pos.y)], global_settings.time_coef);
+		tree.grow(grids[_to_grid_array_coords(grid_pos.x, grid_pos.y)], air, global_settings.time_coef);
+	HUD.show_air_info(air);
 
 func _on_replenish_callback(delta: float):
 	for i in range(GRID_COUNT_PER_EDGE * GRID_COUNT_PER_EDGE):

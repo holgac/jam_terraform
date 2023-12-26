@@ -9,9 +9,9 @@ var display_fruit_on_growth: float;
 var texture: Texture2D;
 var mesh: PackedScene;
 var tooltip: String;
-var phosphorus_usage: float;
-var potassium_usage: float;
-var calcium_usage: float;
+var material_usage: Dictionary;
+var gas_usage: Dictionary;
+var gas_production: Dictionary;
 
 static func _from_json(data: Variant) -> GDTreeType:
 	var res: GDTreeType = GDTreeType.new();
@@ -30,17 +30,18 @@ static func _from_json(data: Variant) -> GDTreeType:
 			res.display_leaf_on_growth = disp['leaf']
 		if 'fruit' in disp:
 			res.display_fruit_on_growth = disp['fruit']
-	res.phosphorus_usage = 0.0;
-	res.potassium_usage = 0.0;
-	res.calcium_usage = 0.0;
-	if 'usage' in data:
-		var usage = data['usage']
-		if 'phosphorus' in usage:
-			res.phosphorus_usage = usage['phosphorus']
-		if 'potassium' in usage:
-			res.potassium_usage = usage['potassium']
-		if 'calcium' in usage:
-			res.calcium_usage = usage['calcium']
+	if 'material_usage' in data:
+		var usage = data['material_usage']
+		for u in usage.keys():
+			res.material_usage[u] = usage[u];
+	if 'gas_usage' in data:
+		var usage = data['gas_usage']
+		for u in usage.keys():
+			res.gas_usage[u] = usage[u];
+	if 'gas_production' in data:
+		var prod = data['gas_production']
+		for p in prod.keys():
+			res.gas_production[p] = prod[p];
 
 	res.texture = ResourceLoader.load(data['texture'] if 'texture' in data else 'res://textures/tree1.png');
 	res.mesh = ResourceLoader.load(data['mesh'] if 'mesh' in data else 'res://scenes/Tree1.tscn');

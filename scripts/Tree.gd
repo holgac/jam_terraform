@@ -10,22 +10,26 @@ var growth: float = 0.0;
 const MIN_MINERAL_USAGE: float = 0.1;
 const MAX_GROWTH: float = 10.0;
 
+func _consume_and_get_ratio(grid: GDGrid, air: GDAir, time_coef: float):
+	var ratio = 1.0;
+	for mat in tree_type.material_usage.keys():
+		if grid.contents[mat] < tree_type.material_usage[mat] * time_coef:
+			ratio = min(ratio, grid.contents[mat] / tree_type.material_usage[mat] * time_coef);
+	for mat in tree_type.material_usage.keys():
+		grid.contents[mat] -= ratio * tree_type.material_usage[mat] * time_coef
+	for gas in tree_type.gas_production.keys():
+		air.contents[gas] += ratio * tree_type.gas_production[gas]
+	return ratio
 
-func grow(grid: GDGrid, time_coef: float):
-	if (grid.phosphorus < tree_type.phosphorus_usage * time_coef
-			or grid.potassium < tree_type.potassium_usage * time_coef
-			or grid.calcium < tree_type.calcium_usage * time_coef):
-		if (grid.phosphorus < tree_type.phosphorus_usage * time_coef * MIN_MINERAL_USAGE
-				or grid.potassium < tree_type.potassium_usage * time_coef * MIN_MINERAL_USAGE
-				or grid.calcium < tree_type.calcium_usage * time_coef * MIN_MINERAL_USAGE):
-			# shrink if has less than minimum
+func grow(grid: GDGrid, air: GDAir, time_coef: float):
+	var ratio = self._consume_and_get_ratio(grid, air, time_coef);
+	if ratio < 0.1:
 			growth = max(growth - time_coef, time_coef);
+	elif ratio < 0.99:
+		pass
 	else:
 		growth = min(growth + time_coef, MAX_GROWTH);
 
-	grid.phosphorus = max(grid.phosphorus - tree_type.phosphorus_usage * time_coef, 0.0);
-	grid.potassium = max(grid.potassium - tree_type.potassium_usage * time_coef, 0.0);
-	grid.calcium = max(grid.calcium - tree_type.calcium_usage * time_coef, 0.0);
 	scale = growth * Vector3(tree_type.branch_growth_coef, tree_type.trunk_growth_coef, tree_type.branch_growth_coef);
 	if growth >= tree_type.display_branch_on_growth:
 		branch.show();

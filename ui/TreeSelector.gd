@@ -9,12 +9,10 @@ func _ready():
 	var texture: TextureButton = get_node("Texture");
 	texture.set_texture_normal(tree_type.texture);
 	var tooltip: String = tree_type.tooltip;
-	if tree_type.phosphorus_usage > 0:
-		tooltip += str('\nNeeds ', tree_type.phosphorus_usage, " phosphorus per sec");
-	if tree_type.potassium_usage > 0:
-		tooltip += str('\nNeeds ', tree_type.potassium_usage, " potassium per sec");
-	if tree_type.calcium_usage > 0:
-		tooltip += str('\nNeeds ', tree_type.calcium_usage, " calcium per sec");
+	for mat in GDConsts.MATERIAL_NAME:
+		var val = tree_type.material_usage.get(mat, 0);
+		if val > 0:
+			tooltip += str('\nNeeds ', val, " ", mat, " per sec");
 	texture.set_tooltip_text(tooltip);
 	var label = get_node("Name");
 	label.set_text(tree_type.name);

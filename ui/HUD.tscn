@@ -19,9 +19,18 @@ size_flags_stretch_ratio = 9.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-text = "Oxygen: 0%
-CO2: 0%
-Humidity: 0%"
+text = "Mat1: 100.0000"
+
+[node name="AirInfo" type="Label" parent="Game"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -103.0
+offset_bottom = 75.0
+grow_horizontal = 0
+text = "Gas1: 10%
+Gas2: 20%"
 
 [node name="BottomBar" type="Control" parent="."]
 clip_contents = true

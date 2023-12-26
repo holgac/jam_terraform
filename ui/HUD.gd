@@ -4,19 +4,30 @@ class_name GDHUD;
 
 var trees_hbox: HBoxContainer;
 @onready var grid_info: Label = get_node("Game/GridInfo");
+@onready var air_info: Label = get_node("Game/AirInfo");
 # var global_settings: GDGlobalSettings;
 
 signal tree_type_selected(tree_type: GDTreeType);
+
+func show_air_info(air: GDAir):
+	var air_contents: String = '';
+	for gas_id in range(GDConsts.GAS.COUNT):
+		air_contents += str(GDConsts.GAS_NAMEC[gas_id], ': ',
+				str(air.contents[GDConsts.GAS_NAME[gas_id]]).pad_decimals(2), '\n');
+	air_info.set_text(air_contents);
 
 func show_grid_info(grid_x: int, grid_y: int, grid: GDGrid):
 	# constructing a string each frame is bad.
 	# can check if prev call used the same x, y and skip update
 	# maybe use format string instead?
+	var grid_contents: String = '';
+	for mat_id in range(GDConsts.MATERIAL.COUNT):
+		grid_contents += str(GDConsts.MATERIAL_NAMEC[mat_id], ': ',
+				str(grid.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(4), '\n');
+		
 	grid_info.set_text(str(
 		'Grid ', grid_x, ',', grid_y, '\n',
-		'Phosphorus: ', str(grid.phosphorus).pad_decimals(4), '\n',
-		'Potassium: ', str(grid.potassium).pad_decimals(4), '\n',
-		'Calcium: ', str(grid.calcium).pad_decimals(4), '\n'
+		grid_contents
 		));
 
 # Called when the node enters the scene tree for the first time.
