@@ -3,32 +3,49 @@ class_name GDTree
 
 var tree_type: GDTreeType;
 var growth: float = 0.0;
-const BRANCH: String = 'tree/branch';
-const LEAF: String = 'tree/leaf';
-const FRUIT: String = 'tree/fruit';
-const BODY: String = 'tree/body';
+@onready var branch: Node3D = get_node('tree/branch');
+@onready var leaf: Node3D = get_node('tree/leaf');
+@onready var body: Node3D = get_node('tree/body');
+@onready var fruit: Node3D = get_node('tree/fruit');
+const MIN_MINERAL_USAGE: float = 0.1;
+const MAX_GROWTH: float = 10.0;
 
 
-func grow(amount: float):
-	if growth > 20:
-		return
-	var old_growth = growth;
-	growth += amount;
+func grow(grid: GDGrid, time_coef: float):
+	if (grid.phosphorus < tree_type.phosphorus_usage * time_coef
+			or grid.potassium < tree_type.potassium_usage * time_coef
+			or grid.calcium < tree_type.calcium_usage * time_coef):
+		if (grid.phosphorus < tree_type.phosphorus_usage * time_coef * MIN_MINERAL_USAGE
+				or grid.potassium < tree_type.potassium_usage * time_coef * MIN_MINERAL_USAGE
+				or grid.calcium < tree_type.calcium_usage * time_coef * MIN_MINERAL_USAGE):
+			# shrink if has less than minimum
+			growth = max(growth - time_coef, time_coef);
+	else:
+		growth = min(growth + time_coef, MAX_GROWTH);
+
+	grid.phosphorus = max(grid.phosphorus - tree_type.phosphorus_usage * time_coef, 0.0);
+	grid.potassium = max(grid.potassium - tree_type.potassium_usage * time_coef, 0.0);
+	grid.calcium = max(grid.calcium - tree_type.calcium_usage * time_coef, 0.0);
 	scale = growth * Vector3(tree_type.branch_growth_coef, tree_type.trunk_growth_coef, tree_type.branch_growth_coef);
-	# TODO: don't hard-code these, make it part of tree type to make meshes reusable
-	if old_growth < tree_type.display_branch_on_growth and growth >= tree_type.display_branch_on_growth:
-		get_node(BRANCH).show();
-	elif old_growth < tree_type.display_leaf_on_growth and growth >= tree_type.display_leaf_on_growth:
-		get_node(LEAF).show();
-	elif old_growth < tree_type.display_fruit_on_growth and growth >= tree_type.display_fruit_on_growth:
-		get_node(FRUIT).show();
+	if growth >= tree_type.display_branch_on_growth:
+		branch.show();
+	else:
+		branch.hide();
+	if growth >= tree_type.display_leaf_on_growth:
+		leaf.show();
+	else:
+		leaf.hide();
+	if growth >= tree_type.display_fruit_on_growth:
+		fruit.show();
+	else:
+		fruit.hide();
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	get_node(BRANCH).hide();
-	get_node(FRUIT).hide();
-	get_node(LEAF).hide();
-	get_node(BODY).show();
+	branch.hide();
+	fruit.hide();
+	leaf.hide();
+	body.show();
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

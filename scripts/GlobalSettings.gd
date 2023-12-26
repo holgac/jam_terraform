@@ -1,7 +1,7 @@
 extends Node
 class_name GDGlobalSettings
 
-@export var time_coef: float = 0.2;
+@export var time_coef: float = 0.1;
 @export var tree_types_json: String = "res://data/trees.json";
 var tree_types: Array[GDTreeType] = [];
 

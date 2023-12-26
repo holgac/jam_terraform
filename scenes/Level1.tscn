@@ -19,7 +19,7 @@ height = 150.0
 [node name="Level" type="Node3D"]
 script = ExtResource("1_mj0sj")
 
-[node name="terrain_water" parent="." instance=ExtResource("2_3c65o")]
+[node name="Terrain" parent="." instance=ExtResource("2_3c65o")]
 
 [node name="GlobalSettings" parent="." instance=ExtResource("2_7dsk4")]
 
@@ -32,7 +32,8 @@ script = ExtResource("4_5scou")
 [node name="Camera3D" type="Camera3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Camera/Camera3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 omni_range = 500.0
 omni_attenuation = 1e-05
 
@@ -41,6 +42,10 @@ omni_attenuation = 1e-05
 [node name="SecondTimer" type="Timer" parent="."]
 autostart = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="ReplenishTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="SkySphere" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -50)
 mesh = SubResource("SphereMesh_hm4u4")

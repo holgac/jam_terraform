@@ -1,57 +1,49 @@
 class_name GDTreeType
 
-# export doesn't work here
-@export var name: String = "unnamed tree";
-@export var trunk_growth_coef: float = 1;
-@export var branch_growth_coef: float = 1;
-@export var display_branch_on_growth: float = 1;
-@export var display_leaf_on_growth: float = 1;
-@export var display_fruit_on_growth: float = 1;
-@export var texture: Texture2D;
-@export var mesh: PackedScene;
-@export var tooltip: String;
+var name: String = "unnamed tree";
+var trunk_growth_coef: float;
+var branch_growth_coef: float;
+var display_branch_on_growth: float;
+var display_leaf_on_growth: float;
+var display_fruit_on_growth: float;
+var texture: Texture2D;
+var mesh: PackedScene;
+var tooltip: String;
+var phosphorus_usage: float;
+var potassium_usage: float;
+var calcium_usage: float;
 
 static func _from_json(data: Variant) -> GDTreeType:
-	var _name: String = data['name'] if 'name' in data else 'UNNAMED TREE';
-	var _trunk_growth_coef: float = data['trunk_growth_coef'] if 'trunk_growth_coef' in data else 1.0;
-	var _branch_growth_coef: float = data['branch_growth_coef'] if 'branch_growth_coef' in data else 1.0;
-	var _display_branch_on_growth: float = 1;
-	var _display_leaf_on_growth: float = 1;
-	var _display_fruit_on_growth: float = 1;
+	var res: GDTreeType = GDTreeType.new();
+	res.name = data['name'] if 'name' in data else 'UNNAMED TREE';
+	res.trunk_growth_coef = data['trunk_growth_coef'] if 'trunk_growth_coef' in data else 1.0;
+	res.branch_growth_coef = data['branch_growth_coef'] if 'branch_growth_coef' in data else 1.0;
+	res.display_branch_on_growth = 1;
+	res.display_leaf_on_growth = 1;
+	res.display_fruit_on_growth = 1;
 
 	if 'display' in data:
 		var disp = data['display']
 		if 'branch' in disp:
-			_display_branch_on_growth = disp['branch']
+			res.display_branch_on_growth = disp['branch']
 		if 'leaf' in disp:
-			_display_leaf_on_growth = disp['leaf']
+			res.display_leaf_on_growth = disp['leaf']
 		if 'fruit' in disp:
-			_display_fruit_on_growth = disp['fruit']
+			res.display_fruit_on_growth = disp['fruit']
+	res.phosphorus_usage = 0.0;
+	res.potassium_usage = 0.0;
+	res.calcium_usage = 0.0;
+	if 'usage' in data:
+		var usage = data['usage']
+		if 'phosphorus' in usage:
+			res.phosphorus_usage = usage['phosphorus']
+		if 'potassium' in usage:
+			res.potassium_usage = usage['potassium']
+		if 'calcium' in usage:
+			res.calcium_usage = usage['calcium']
 
-	var _texture: String = data['texture'] if 'texture' in data else 'res://textures/tree1.png';
-	var _mesh: String = data['mesh'] if 'mesh' in data else 'res://scenes/Tree1.tscn';
-	var _tooltip: String = data['tooltip'] if 'tooltip' in data else 'NO INFO FOUND';
-	return GDTreeType.new(
-		_name,
-		_trunk_growth_coef,
-		_branch_growth_coef,
-		_display_branch_on_growth,
-		_display_leaf_on_growth,
-		_display_fruit_on_growth,
-		ResourceLoader.load(_texture),
-		ResourceLoader.load(_mesh),
-		_tooltip,
-	);
+	res.texture = ResourceLoader.load(data['texture'] if 'texture' in data else 'res://textures/tree1.png');
+	res.mesh = ResourceLoader.load(data['mesh'] if 'mesh' in data else 'res://scenes/Tree1.tscn');
+	res.tooltip = data['tooltip'] if 'tooltip' in data else 'NO INFO FOUND';
+	return res
 
-func _init(_name: String, _trunk_growth_coef: float, _branch_growth_coef: float,
-		_display_branch_on_growth: float, _display_leaf_on_growth: float, _display_fruit_on_growth: float,
-		_texture: Texture2D, _mesh: PackedScene, _tooltip: String):
-	name = _name;
-	trunk_growth_coef = _trunk_growth_coef;
-	branch_growth_coef = _branch_growth_coef;
-	display_branch_on_growth = _display_branch_on_growth;
-	display_leaf_on_growth = _display_leaf_on_growth;
-	display_fruit_on_growth = _display_fruit_on_growth;
-	texture = _texture;
-	mesh = _mesh;
-	tooltip = _tooltip;

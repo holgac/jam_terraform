@@ -2,6 +2,7 @@ extends GDLevel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	level_settings = GDLevelSettings.new();
 	_base_ready();
 
 

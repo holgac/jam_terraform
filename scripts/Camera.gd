@@ -24,4 +24,7 @@ func _process(delta):
 	if Input.is_action_pressed("camera_right"):
 		movement.x = movement_speed;
 	if movement.length_squared() > 0.1:
-		translate(movement * delta);
+		var speed_coef: float = 1.0;
+		if Input.is_action_pressed("camera_boost"):
+			speed_coef = 5.0;
+		translate(movement * (delta * speed_coef));
