@@ -1,0 +1,23 @@
+[
+	{
+	"name": "short tree",
+	"trunk_growth_coef": 0.5,
+	"branch_growth_coef": 0.5,
+	"texture": "res://textures/tree1.png",
+	"mesh": "res://scenes/Tree1.tscn"
+  },
+	{
+	"name": "fast tree",
+	"trunk_growth_coef": 2.0,
+	"branch_growth_coef": 2.0,
+	"texture": "res://textures/tree2.png",
+	"mesh": "res://scenes/Tree2.tscn"
+  },
+	{
+	"name": "tall tree",
+	"trunk_growth_coef": 0.5,
+	"branch_growth_coef": 0.5,
+	"texture": "res://textures/tree3.png",
+	"mesh": "res://scenes/Tree3.tscn"
+  },
+]

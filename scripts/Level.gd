@@ -5,32 +5,40 @@ var selected_tree_type: GDTreeType;
 var selected_tree_entity: GDTree;
 var HUD: GDHUD;
 var camera: Camera3D;
+var trees: Node3D;
 var RAY_LENGTH: int = 200;
 var is_cursor_on_ui: bool = false;
 
+@onready var global_settings: GDGlobalSettings = $GlobalSettings;
+
 func _base_ready():
 	camera = get_node("Camera/Camera3D");
+	trees = get_node("Trees");
 	HUD = get_node("HUD");
 	HUD.connect("tree_type_selected", _tree_type_selected);
 	var gameView = HUD.get_node("Game")
 	gameView.connect("mouse_entered", _hud_mouse_entered);
 	gameView.connect("mouse_exited", _hud_mouse_exited);
+	var secondTimer = get_node("SecondTimer");
+	secondTimer.connect("timeout", _on_second_callback);
+
+func _on_second_callback():
+	# process all existing trees
+	for tree_node in trees.get_children():
+		var tree: GDTree = tree_node;
+		tree.grow(global_settings.time_coef);
 
 func _hud_mouse_entered():
 	print('mouse entered')
 	if selected_tree_entity:
-		print(str('was visible: ', selected_tree_entity.is_visible()))
 		selected_tree_entity.show()
 		is_cursor_on_ui = false;
-		print(str('is visible: ', selected_tree_entity.is_visible()))
 
 func _hud_mouse_exited():
 	print('mouse exited')
 	if selected_tree_entity:
-		print(str('was visible: ', selected_tree_entity.is_visible()))
 		selected_tree_entity.hide()
 		is_cursor_on_ui = true;
-		print(str('is visible: ', selected_tree_entity.is_visible()))
 
 func _base_physics_process():
 	_update_selected_tree_entity();
@@ -60,8 +68,17 @@ func _update_selected_tree_entity():
 
 	# TODO: set coll mask; this'll intersect with other trees once (if?) their physics are imported
 	var result = space_state.intersect_ray(query)
+	var is_hovering_valid: bool = false;
 	if result:
-		selected_tree_entity.position = result.position;
+		var collider = result['collider']
+		var parent = collider.get_parent();
+		# TODO: can also do this via physics materials
+		if parent.name == 'water':
+			is_hovering_valid = false;
+		else:
+			selected_tree_entity.position = result.position;
+			is_hovering_valid = true;
+	if is_hovering_valid:
 		selected_tree_entity.show();
 	else:
 		selected_tree_entity.hide();
@@ -71,4 +88,9 @@ func _input(event):
 			selected_tree_entity and selected_tree_entity.is_visible()):
 		var new_entity = selected_tree_type.mesh.instantiate();
 		new_entity.position = selected_tree_entity.position;
-		add_child(new_entity)
+		trees.add_child(new_entity)
+	elif (event is InputEventMouseButton and event.pressed and event.button_index == 2 and
+			selected_tree_entity):
+		selected_tree_entity.queue_free();
+		selected_tree_entity = null;
+		selected_tree_type = null;

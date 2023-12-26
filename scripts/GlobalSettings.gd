@@ -1,20 +1,25 @@
 extends Node
 class_name GDGlobalSettings
 
-@export var time_coef: float = 1;
+@export var time_coef: float = 0.2;
+@export var tree_types_json: String = "res://data/trees.json";
 var tree_types: Array[GDTreeType] = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	tree_types.append(GDTreeType.new("slow tree", 1, 1,
-		ResourceLoader.load("res://textures/tree1.png"),
-		preload("res://scenes/Tree1.tscn")));
-	tree_types.append(GDTreeType.new("fast tree", 2, 2,
-		ResourceLoader.load("res://textures/tree2.png"),
-		preload("res://scenes/Tree2.tscn")));
-	tree_types.append(GDTreeType.new("nice tree", 2, 2,
-		ResourceLoader.load("res://textures/tree2.png"),
-		preload("res://scenes/Tree2.tscn")));
+	_load_trees();
+
+func _load_trees():
+	var text = FileAccess.get_file_as_string(tree_types_json);
+	var json = JSON.parse_string(text);
+	for data in json:
+		tree_types.append(GDTreeType.new(
+			data['name'],
+			data['trunk_growth_coef'],
+			data['branch_growth_coef'],
+			ResourceLoader.load(data['texture']),
+			ResourceLoader.load(data['mesh']),
+		));
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
