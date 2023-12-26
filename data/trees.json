@@ -1,23 +1,29 @@
 [
 	{
 	"name": "short tree",
-	"trunk_growth_coef": 0.5,
-	"branch_growth_coef": 0.5,
+	"trunk_growth_coef": 0.6,
+	"branch_growth_coef": 0.6,
+	"display": {"branch": 1.0, "leaf": 3.0, "fruit": 10.0},
 	"texture": "res://textures/tree1.png",
-	"mesh": "res://scenes/Tree1.tscn"
-  },
+	"mesh": "res://scenes/Tree1.tscn",
+	"tooltip": "This is a short tree.\nIt doesn't grow fast",
+	},
 	{
 	"name": "fast tree",
-	"trunk_growth_coef": 2.0,
-	"branch_growth_coef": 2.0,
+	"trunk_growth_coef": 1.2,
+	"branch_growth_coef": 1.2,
+	"display": {"branch": 3.0, "leaf": 4.0, "fruit": 6.0},
 	"texture": "res://textures/tree2.png",
-	"mesh": "res://scenes/Tree2.tscn"
-  },
+	"mesh": "res://scenes/Tree2.tscn",
+	"tooltip": "This is a short tree but it grows fast",
+	},
 	{
 	"name": "tall tree",
-	"trunk_growth_coef": 0.5,
-	"branch_growth_coef": 0.5,
+	"trunk_growth_coef": 1.5,
+	"branch_growth_coef": 0.7,
+	"display": {"branch": 0.5, "leaf": 3.0, "fruit": 7.0},
 	"texture": "res://textures/tree3.png",
-	"mesh": "res://scenes/Tree3.tscn"
-  },
+	"mesh": "res://scenes/Tree3.tscn",
+	"tooltip": "This is a tall tree but it grows slowly",
+	},
 ]

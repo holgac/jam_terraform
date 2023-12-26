@@ -3,10 +3,10 @@ class_name GDTree
 
 var tree_type: GDTreeType;
 var growth: float = 0.0;
-const BRANCH: String = 'Scene/tree/branch';
-const LEAF: String = 'Scene/tree/leaf';
-const FRUIT: String = 'Scene/tree/fruit';
-const BODY: String = 'Scene/tree/body';
+const BRANCH: String = 'tree/branch';
+const LEAF: String = 'tree/leaf';
+const FRUIT: String = 'tree/fruit';
+const BODY: String = 'tree/body';
 
 
 func grow(amount: float):
@@ -14,13 +14,13 @@ func grow(amount: float):
 		return
 	var old_growth = growth;
 	growth += amount;
-	scale = Vector3.ONE * growth;
+	scale = growth * Vector3(tree_type.branch_growth_coef, tree_type.trunk_growth_coef, tree_type.branch_growth_coef);
 	# TODO: don't hard-code these, make it part of tree type to make meshes reusable
-	if old_growth < 1.0 and growth >= 1.0:
+	if old_growth < tree_type.display_branch_on_growth and growth >= tree_type.display_branch_on_growth:
 		get_node(BRANCH).show();
-	elif old_growth < 3.0 and growth >= 3.0:
+	elif old_growth < tree_type.display_leaf_on_growth and growth >= tree_type.display_leaf_on_growth:
 		get_node(LEAF).show();
-	elif old_growth < 10.0 and growth >= 10.0:
+	elif old_growth < tree_type.display_fruit_on_growth and growth >= tree_type.display_fruit_on_growth:
 		get_node(FRUIT).show();
 
 # Called when the node enters the scene tree for the first time.

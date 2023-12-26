@@ -6,8 +6,9 @@ signal pressed(tree_type: GDTreeType);
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var texture = get_node("Texture");
+	var texture: TextureButton = get_node("Texture");
 	texture.set_texture_normal(tree_type.texture);
+	texture.set_tooltip_text(tree_type.tooltip);
 	var label = get_node("Name");
 	label.set_text(tree_type.name);
 

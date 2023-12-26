@@ -15,6 +15,14 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 9.0
 
+[node name="Label" type="Label" parent="Game"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Oxygen: 0%
+CO2: 0%
+Humidity: 0%"
+
 [node name="BottomBar" type="Control" parent="."]
 clip_contents = true
 layout_mode = 2
