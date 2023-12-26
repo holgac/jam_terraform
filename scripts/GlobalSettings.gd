@@ -12,7 +12,9 @@ func _ready():
 	tree_types.append(GDTreeType.new("fast tree", 2, 2,
 		ResourceLoader.load("res://textures/tree2.png"),
 		preload("res://scenes/Tree2.tscn")));
-
+	tree_types.append(GDTreeType.new("nice tree", 2, 2,
+		ResourceLoader.load("res://textures/tree2.png"),
+		preload("res://scenes/Tree2.tscn")));
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

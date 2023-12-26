@@ -10,10 +10,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_whenc")
 
-[node name="Game" type="HBoxContainer" parent="."]
+[node name="Game" type="Control" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 7.0
+size_flags_stretch_ratio = 9.0
 
 [node name="BottomBar" type="Control" parent="."]
 clip_contents = true
