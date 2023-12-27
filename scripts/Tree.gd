@@ -21,6 +21,8 @@ func _consume_and_get_ratio(grid: GDGrid, air: GDAir, time_coef: float):
 	ratio = max(ratio, 0.0);
 	for mat in tree_type.material_usage.keys():
 		grid.contents[mat] -= ratio * tree_type.material_usage[mat] * time_coef
+	for mat in tree_type.material_production.keys():
+		grid.contents[mat] += ratio * tree_type.material_production[mat]
 	for gas in tree_type.gas_production.keys():
 		air.contents[gas] += ratio * tree_type.gas_production[gas]
 	return ratio

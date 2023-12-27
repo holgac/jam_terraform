@@ -10,6 +10,7 @@ var texture: Texture2D;
 var mesh: PackedScene;
 var tooltip: String;
 var material_usage: Dictionary;
+var material_production: Dictionary;
 var gas_usage: Dictionary;
 var gas_production: Dictionary;
 
@@ -34,6 +35,10 @@ static func _from_json(data: Variant) -> GDTreeType:
 		var usage = data['material_usage']
 		for u in usage.keys():
 			res.material_usage[u] = usage[u];
+	if 'material_production' in data:
+		var prod = data['material_production']
+		for p in prod.keys():
+			res.material_production[p] = prod[p];
 	if 'gas_usage' in data:
 		var usage = data['gas_usage']
 		for u in usage.keys():

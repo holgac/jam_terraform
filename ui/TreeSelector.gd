@@ -17,6 +17,10 @@ func _ready():
 		var val = tree_type.gas_usage[gas];
 		if val > 0:
 			tooltip += str('\nNeeds ', val, " ", gas, " per sec");
+	for mat in tree_type.material_production.keys():
+		var val = tree_type.material_production[mat];
+		if val > 0:
+			tooltip += str('\nProduces ', val, " ", mat, " per sec");
 	for gas in tree_type.gas_production.keys():
 		var val = tree_type.gas_production[gas];
 		if val > 0:

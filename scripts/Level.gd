@@ -125,6 +125,7 @@ func _input(event):
 			selected_tree_entity and selected_tree_entity.is_visible()):
 		var new_entity: GDTree = selected_tree_type.mesh.instantiate();
 		new_entity.position = selected_tree_entity.position;
+		new_entity.rotation = Vector3(0, 2 * PI * randf(), 0);
 		new_entity.tree_type = selected_tree_type;
 		trees.add_child(new_entity)
 	elif (event is InputEventMouseButton and event.pressed and event.button_index == 2 and
