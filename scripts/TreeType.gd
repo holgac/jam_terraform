@@ -1,6 +1,6 @@
 class_name GDTreeType
 
-var name: String = "unnamed tree";
+var name: String = "UNNAMED TREE";
 var trunk_growth_coef: float;
 var branch_growth_coef: float;
 var display_branch_on_growth: float;

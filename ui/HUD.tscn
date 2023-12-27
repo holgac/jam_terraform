@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cthvwse2lt478"]
+[gd_scene load_steps=3 format=3 uid="uid://cthvwse2lt478"]
 
 [ext_resource type="Script" path="res://ui/HUD.gd" id="1_whenc"]
+[ext_resource type="PackedScene" uid="uid://carhs4f3gev77" path="res://ui/Bulldozer.tscn" id="2_73knr"]
 
 [node name="HUD" type="VBoxContainer"]
 anchors_preset = 15
@@ -61,3 +62,6 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Bulldozer" parent="BottomBar/ScrollContainer/HBoxContainer" instance=ExtResource("2_73knr")]
+layout_mode = 2

@@ -13,7 +13,11 @@ const POS_TO_GRID_MULT: float = GRID_COUNT_PER_EDGE * 1.0 / TERRAIN_EDGE_LENGTH;
 var is_cursor_on_ui: bool = false;
 var grids: Array[GDGrid] = [];
 var level_settings: GDLevelSettings;
+var winning_conditions: GDWinningConditions;
 var air: GDAir;
+var plant_count: Dictionary = {};
+enum HOVER_MODE {None, Plant, Bulldoze};
+var hover_mode: HOVER_MODE = HOVER_MODE.None;
 
 @onready var global_settings: GDGlobalSettings = $GlobalSettings;
 
@@ -28,10 +32,12 @@ func _world_pos_to_grid(pos: Vector3):
 
 func _base_ready():
 	assert(level_settings, "Level should set level_settings before calling _base_ready!");
+	assert(winning_conditions, "Level should set winning_conditions before calling _base_ready!");
 	camera = get_node("Camera/Camera3D");
 	trees = get_node("Trees");
 	HUD = get_node("HUD");
 	HUD.connect("tree_type_selected", _tree_type_selected);
+	HUD.connect("bulldozer_selected", _bulldozer_selected);
 	var gameView = HUD.get_node("Game")
 	gameView.connect("mouse_entered", _hud_mouse_entered);
 	gameView.connect("mouse_exited", _hud_mouse_exited);
@@ -53,6 +59,8 @@ func _on_second_callback():
 		tree.grow(grids[_to_grid_array_coords(grid_pos.x, grid_pos.y)], air, global_settings.time_coef);
 	air.replenish(level_settings, global_settings.time_coef);
 	HUD.show_air_info(air);
+	if winning_conditions.player_won(self):
+		print('Player has passed this level!');
 
 func _on_replenish_callback(delta: float):
 	for i in range(GRID_COUNT_PER_EDGE * GRID_COUNT_PER_EDGE):
@@ -73,46 +81,53 @@ func _hud_mouse_exited():
 func _base_physics_process():
 	_update_selected_tree_entity();
 
+func _bulldozer_selected():
+	_unselect_tree_type();
+	hover_mode = HOVER_MODE.Bulldoze;
+
 func _tree_type_selected(tree_type: GDTreeType):
-	var position: Vector3 = Vector3.ZERO;
+	hover_mode = HOVER_MODE.Plant;
+	var pos: Vector3 = Vector3.ZERO;
 	if selected_tree_entity:
-		position = selected_tree_entity.position;
+		pos = selected_tree_entity.position;
 		selected_tree_entity.get_parent().remove_child(selected_tree_entity);
 		selected_tree_entity.queue_free();
 	selected_tree_type = tree_type;
 	selected_tree_entity = selected_tree_type.mesh.instantiate();
 	# TODO: semi transparent (set albedo.alpha of SpatialMaterial of MeshInstance(s))
-	selected_tree_entity.position = position;
+	selected_tree_entity.position = pos;
 	add_child(selected_tree_entity);
+
+func _cast_ray(mask: int):
+	var space_state = get_world_3d().direct_space_state;
+	var mousepos = get_viewport().get_mouse_position();
+	var origin = camera.project_ray_origin(mousepos);
+	var end = origin + camera.project_ray_normal(mousepos) * RAY_LENGTH;
+	var query = PhysicsRayQueryParameters3D.create(origin, end);
+	# TODO: this isn't necessary? test and rm
+	query.collide_with_areas = true;
+	query.collision_mask = mask;
+	return space_state.intersect_ray(query);
 
 func _update_selected_tree_entity():
 	if is_cursor_on_ui:
 		return
-	var space_state = get_world_3d().direct_space_state;
-	var mousepos = get_viewport().get_mouse_position();
-
-	var origin = camera.project_ray_origin(mousepos);
-	var end = origin + camera.project_ray_normal(mousepos) * RAY_LENGTH;
-	var query = PhysicsRayQueryParameters3D.create(origin, end);
-	query.collide_with_areas = true;
-
-	# TODO: set coll mask; this'll intersect with other trees once (if?) their physics are imported
-	var result = space_state.intersect_ray(query);
+	var result = _cast_ray(GDConsts.PHYSICS_LAYERS.Terrain);
 	var is_hovering_valid: bool = false;
 	if result:
 		var collider = result['collider'];
 		var parent = collider.get_parent();
 		# TODO: can also do this via physics materials
+		# TODO: this'll change when water plants are added
 		if parent.name == 'water':
 			is_hovering_valid = false;
 		else:
 			is_hovering_valid = true;
-		var grid_x: int = int(result.position.x * POS_TO_GRID_MULT);
-		# -z because our map goes from 0 to -TERRAIN_EDGE_LENGTH in z coords
-		var grid_y: int = int(-result.position.z * POS_TO_GRID_MULT);
 		var grid_pos = _world_pos_to_grid(result.position);
 		HUD.show_grid_info(grid_pos.x, grid_pos.y,
 			grids[_to_grid_array_coords(grid_pos.x, grid_pos.y)]);
+	else:
+		HUD.show_grid_info(-1, -1, null);
 	if selected_tree_entity:
 		if is_hovering_valid:
 			selected_tree_entity.position = result.position;
@@ -121,15 +136,38 @@ func _update_selected_tree_entity():
 			selected_tree_entity.hide();
 
 func _input(event):
-	if (event is InputEventMouseButton and event.pressed and event.button_index == 1 and
-			selected_tree_entity and selected_tree_entity.is_visible()):
-		var new_entity: GDTree = selected_tree_type.mesh.instantiate();
-		new_entity.position = selected_tree_entity.position;
-		new_entity.rotation = Vector3(0, 2 * PI * randf(), 0);
-		new_entity.tree_type = selected_tree_type;
-		trees.add_child(new_entity)
+	if event is InputEventMouseButton and event.pressed and event.button_index == 1:
+		if hover_mode == HOVER_MODE.Plant and selected_tree_entity.is_visible():
+			plant_tree(selected_tree_type, selected_tree_entity.position);
+		elif hover_mode == HOVER_MODE.Bulldoze:
+			_bulldoze();
 	elif (event is InputEventMouseButton and event.pressed and event.button_index == 2 and
 			selected_tree_entity):
+		_unselect_tree_type();
+		hover_mode = HOVER_MODE.None;
+
+func _unselect_tree_type():
+	if selected_tree_entity:
 		selected_tree_entity.queue_free();
 		selected_tree_entity = null;
 		selected_tree_type = null;
+	
+func _bulldoze():
+	var result = _cast_ray(GDConsts.PHYSICS_LAYERS.Plant);
+	if not result:
+		return;
+	var collider = result['collider'];
+	var tree = collider.get_parent().get_parent().get_parent();
+	assert(tree is GDTree);
+	plant_count[tree.tree_type.name] -= 1;
+	tree.queue_free();
+
+
+func plant_tree(tree_type: GDTreeType, pos: Vector3):
+	var new_entity: GDTree = tree_type.mesh.instantiate();
+	new_entity.position = pos;
+	new_entity.rotation = Vector3(0, 2 * PI * randf(), 0);
+	new_entity.tree_type = tree_type;
+	plant_count[tree_type.name] = plant_count.get(tree_type.name, 0) + 1
+	trees.add_child(new_entity)
+

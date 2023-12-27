@@ -9,6 +9,9 @@ func _ready():
 	level_settings.default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 2000;
 	level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 20;
 	level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 5;
+	winning_conditions = GDWinningConditions.new();
+	winning_conditions.min_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Oxygen]] = 0.1;
+	winning_conditions.min_plant_count['hungry tree'] = 10;
 	_base_ready();
 
 

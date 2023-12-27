@@ -29,11 +29,9 @@ func _ready():
 	var label = get_node("Name");
 	label.set_text(tree_type.name);
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
-
 
 func _on_texture_pressed():
 	pressed.emit(tree_type);

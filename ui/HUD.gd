@@ -8,6 +8,7 @@ var trees_hbox: HBoxContainer;
 # var global_settings: GDGlobalSettings;
 
 signal tree_type_selected(tree_type: GDTreeType);
+signal bulldozer_selected;
 
 func show_air_info(air: GDAir):
 	var air_contents: String = '';
@@ -18,6 +19,10 @@ func show_air_info(air: GDAir):
 	air_info.set_text(air_contents);
 
 func show_grid_info(grid_x: int, grid_y: int, grid: GDGrid):
+	if not grid:
+		grid_info.set_text('Hover over a grid to view its contents')
+		return
+
 	# constructing a string each frame is bad.
 	# can check if prev call used the same x, y and skip update
 	# maybe use format string instead?
@@ -41,7 +46,10 @@ func _ready():
 		selector.tree_type = tree_type;
 		selector.connect("pressed", _on_tree_type_selected);
 		trees_hbox.add_child(selector);
-	
+	get_node('BottomBar/ScrollContainer/HBoxContainer/Bulldozer').connect('pressed', _bulldozer_selected);
+
+func _bulldozer_selected():
+	bulldozer_selected.emit();
 
 func _on_tree_type_selected(tree_type: GDTreeType):
 	print("selected tree: ", tree_type.name)
@@ -49,5 +57,5 @@ func _on_tree_type_selected(tree_type: GDTreeType):
 	#pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass

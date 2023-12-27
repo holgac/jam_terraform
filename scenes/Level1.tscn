@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://cjy488m58ja3d" path="res://scenes/GlobalSettings.tscn" id="2_7dsk4"]
 [ext_resource type="PackedScene" uid="uid://cthvwse2lt478" path="res://ui/HUD.tscn" id="3_vfmos"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="4_5scou"]
-[ext_resource type="Texture2D" uid="uid://iv45ucehv5mp" path="res://textures/sky.jpg" id="6_f12cd"]
+[ext_resource type="Texture2D" uid="uid://ba0xr88kpeypq" path="res://textures/sky.png" id="6_owhlh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nv7rw"]
-albedo_texture = ExtResource("6_f12cd")
+albedo_texture = ExtResource("6_owhlh")
 
 [sub_resource type="SphereMesh" id="SphereMesh_hm4u4"]
 material = SubResource("StandardMaterial3D_nv7rw")
