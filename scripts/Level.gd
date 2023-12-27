@@ -51,9 +51,7 @@ func _on_second_callback():
 		var tree: GDTree = tree_node;
 		var grid_pos = _world_pos_to_grid(tree.position);
 		tree.grow(grids[_to_grid_array_coords(grid_pos.x, grid_pos.y)], air, global_settings.time_coef);
-	air.normalize();
 	air.replenish(level_settings, global_settings.time_coef);
-	air.normalize();
 	HUD.show_air_info(air);
 
 func _on_replenish_callback(delta: float):
@@ -63,13 +61,11 @@ func _on_replenish_callback(delta: float):
 
 
 func _hud_mouse_entered():
-	print('mouse entered')
 	if selected_tree_entity:
 		selected_tree_entity.show()
 		is_cursor_on_ui = false;
 
 func _hud_mouse_exited():
-	print('mouse exited')
 	if selected_tree_entity:
 		selected_tree_entity.hide()
 		is_cursor_on_ui = true;

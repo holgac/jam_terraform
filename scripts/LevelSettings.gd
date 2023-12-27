@@ -5,6 +5,7 @@ class_name GDLevelSettings;
 var default_grid_contents: Dictionary;
 
 var default_air_contents: Dictionary;
+var air_contents_increment: Dictionary;
 # converges the given gases to the assigned values (i.e. replenish selectively)
 # var air_contents_converge: Dictionary;
 
@@ -17,5 +18,4 @@ func _init(_default_grid_content: float = 10.0):
 		default_grid_contents[GDConsts.MATERIAL_NAME[i]] = _default_grid_content;
 	for i in range(GDConsts.GAS.COUNT):
 		default_air_contents[GDConsts.GAS_NAME[i]] = 1.0 / GDConsts.GAS.COUNT;
-	default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 0.8;
-	default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 0.2;
+		air_contents_increment[GDConsts.GAS_NAME[i]] = 0.0;

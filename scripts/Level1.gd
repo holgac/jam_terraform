@@ -5,8 +5,10 @@ func _ready():
 	level_settings = GDLevelSettings.new();
 	for i in range(GDConsts.GAS.COUNT):
 		level_settings.default_air_contents[GDConsts.GAS_NAME[i]] = 0.0;
-	level_settings.default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 0.8;
-	level_settings.default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 0.2;
+	level_settings.default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 8000;
+	level_settings.default_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 2000;
+	level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 20;
+	level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 5;
 	_base_ready();
 
 
