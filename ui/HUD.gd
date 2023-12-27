@@ -13,7 +13,7 @@ func show_air_info(air: GDAir):
 	var air_contents: String = '';
 	for gas_id in range(GDConsts.GAS.COUNT):
 		air_contents += str(GDConsts.GAS_NAMEC[gas_id], ': ',
-				str(air.contents[GDConsts.GAS_NAME[gas_id]]).pad_decimals(2), '\n');
+				str(100 * air.contents[GDConsts.GAS_NAME[gas_id]]).pad_decimals(2), '%\n');
 	air_info.set_text(air_contents);
 
 func show_grid_info(grid_x: int, grid_y: int, grid: GDGrid):

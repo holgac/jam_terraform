@@ -9,10 +9,18 @@ func _ready():
 	var texture: TextureButton = get_node("Texture");
 	texture.set_texture_normal(tree_type.texture);
 	var tooltip: String = tree_type.tooltip;
-	for mat in GDConsts.MATERIAL_NAME:
-		var val = tree_type.material_usage.get(mat, 0);
+	for mat in tree_type.material_usage.keys():
+		var val = tree_type.material_usage[mat];
 		if val > 0:
 			tooltip += str('\nNeeds ', val, " ", mat, " per sec");
+	for gas in tree_type.gas_usage.keys():
+		var val = tree_type.gas_usage[gas];
+		if val > 0:
+			tooltip += str('\nNeeds ', val, " ", gas, " per sec");
+	for gas in tree_type.gas_production.keys():
+		var val = tree_type.gas_production[gas];
+		if val > 0:
+			tooltip += str('\nProduces ', val, " ", gas, " per sec");
 	texture.set_tooltip_text(tooltip);
 	var label = get_node("Name");
 	label.set_text(tree_type.name);

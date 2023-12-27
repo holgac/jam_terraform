@@ -15,6 +15,10 @@ func _consume_and_get_ratio(grid: GDGrid, air: GDAir, time_coef: float):
 	for mat in tree_type.material_usage.keys():
 		if grid.contents[mat] < tree_type.material_usage[mat] * time_coef:
 			ratio = min(ratio, grid.contents[mat] / tree_type.material_usage[mat] * time_coef);
+	for gas in tree_type.gas_usage.keys():
+		if air.contents[gas] < tree_type.gas_usage[gas] * time_coef:
+			ratio = min(ratio, air.contents[gas] / tree_type.gas_usage[gas] * time_coef);
+	ratio = max(ratio, 0.0);
 	for mat in tree_type.material_usage.keys():
 		grid.contents[mat] -= ratio * tree_type.material_usage[mat] * time_coef
 	for gas in tree_type.gas_production.keys():
@@ -50,7 +54,3 @@ func _ready():
 	fruit.hide();
 	leaf.hide();
 	body.show();
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

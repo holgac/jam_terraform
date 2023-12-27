@@ -1,7 +1,7 @@
 extends Node
 class_name GDGlobalSettings
 
-@export var time_coef: float = 0.1;
+@export var time_coef: float = 0.5;
 @export var tree_types_json: String = "res://data/trees.json";
 var tree_types: Array[GDTreeType] = [];
 
@@ -16,5 +16,5 @@ func _load_trees():
 		tree_types.append(GDTreeType._from_json(data));
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass

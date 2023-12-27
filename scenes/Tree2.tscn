@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dc65fk8hnqqiw"]
 
 [ext_resource type="Script" path="res://scripts/Tree.gd" id="1_jli00"]
-[ext_resource type="PackedScene" uid="uid://by12hpks8vvbj" path="res://models/tree.glb" id="2_djmjn"]
+[ext_resource type="PackedScene" uid="uid://dv0vdcnsmigp8" path="res://models/tree_orange.glb" id="2_p4tu0"]
 
 [node name="Tree" type="Node3D"]
 script = ExtResource("1_jli00")
 
-[node name="tree" parent="." instance=ExtResource("2_djmjn")]
+[node name="tree" parent="." instance=ExtResource("2_p4tu0")]
