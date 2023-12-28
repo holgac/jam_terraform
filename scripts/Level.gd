@@ -38,6 +38,9 @@ func _base_ready():
   air = GDAir.new(level_settings);
   HUD.show_air_info(air);
 
+func _on_level_won():
+  pass
+
 func _on_second_callback(delta: float):
   # process all existing trees
   for tree_node in trees.get_children():
@@ -48,6 +51,7 @@ func _on_second_callback(delta: float):
   HUD.show_air_info(air);
   if winning_conditions.player_won(self):
     print('Player has passed this level!');
+    _on_level_won()
 
 func _on_replenish_callback(delta: float):
   for i in range(GDConsts.GRID_COUNT_PER_EDGE * GDConsts.GRID_COUNT_PER_EDGE):

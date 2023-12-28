@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq1lmn3sevtqk"]
+
+[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="1_6ik0o"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ik0o")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.0
+offset_top = 78.0
+offset_right = 109.0
+offset_bottom = 123.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Terraform 3D!"
+
+[node name="StartGame" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -179.0
+offset_top = 158.0
+offset_right = 179.0
+offset_bottom = 221.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Start A New Game"
+
+[node name="Options" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -179.0
+offset_top = 308.0
+offset_right = 179.0
+offset_bottom = 371.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Options"
+
+[node name="Credits" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -179.0
+offset_top = 432.0
+offset_right = 179.0
+offset_bottom = 495.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Credits"
+
+[node name="Exit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -179.0
+offset_top = 551.0
+offset_right = 179.0
+offset_bottom = 614.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Exit :("
+
+[connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

@@ -10,9 +10,16 @@ func _ready():
   level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Nitrogen]] = 20;
   level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 5;
   winning_conditions = GDWinningConditions.new();
-  winning_conditions.min_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Oxygen]] = 0.1;
+  winning_conditions.min_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Oxygen]] = 0.01;
   winning_conditions.min_plant_count['hungry tree'] = 10;
   _base_ready();
+
+  var alert: AcceptDialog = get_node("Alert");
+  alert.set_title("Level 1: A New Beginning")
+  alert.set_text("In this mission, get at least 10% oxygen and plant 10 hungry trees.\nBeware that they're really hungry.")
+  alert.show();
+  # alert.connect('canceled', alert.queue_free.bind());
+  # alert.connect('confirmed', alert.queue_free.bind());
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,3 +28,11 @@ func _process(_delta):
 
 func _physics_process(_delta):
   _base_physics_process();
+
+func _on_level_won():
+  var alert: AcceptDialog = get_node("Alert");
+  alert.set_title("Level 1: A New Beginning")
+  alert.set_text("You have passed this level, move to the next!")
+  alert.connect('canceled', Session.goto_scene.bind(Session.MainMenuScene));
+  alert.connect('confirmed', Session.goto_scene.bind(Session.MainMenuScene));
+  alert.show();

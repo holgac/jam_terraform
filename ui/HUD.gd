@@ -45,6 +45,7 @@ func _ready():
     selector.connect("pressed", _on_tree_type_selected);
     trees_hbox.add_child(selector);
   get_node('BottomBar/ScrollContainer/HBoxContainer/Bulldozer').connect('pressed', _bulldozer_selected);
+  get_node('Game/BackToMainMenu').connect('pressed', Session.goto_scene.bind(Session.MainMenuScene));
 
 func _bulldozer_selected():
   bulldozer_selected.emit();

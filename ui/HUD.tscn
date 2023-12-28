@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cthvwse2lt478"]
+[gd_scene load_steps=4 format=3 uid="uid://cthvwse2lt478"]
 
 [ext_resource type="Script" path="res://ui/HUD.gd" id="1_whenc"]
 [ext_resource type="PackedScene" uid="uid://carhs4f3gev77" path="res://ui/Bulldozer.tscn" id="2_73knr"]
+[ext_resource type="Texture2D" uid="uid://205je8ij58n0" path="res://textures/back.png" id="2_a14i3"]
 
 [node name="HUD" type="VBoxContainer"]
 anchors_preset = 15
@@ -32,6 +33,22 @@ offset_bottom = 75.0
 grow_horizontal = 0
 text = "Gas1: 10%
 Gas2: 20%"
+
+[node name="BackToMainMenu" type="TextureButton" parent="Game"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("2_a14i3")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="BottomBar" type="Control" parent="."]
 clip_contents = true
