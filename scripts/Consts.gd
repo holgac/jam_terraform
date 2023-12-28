@@ -9,3 +9,6 @@ const GAS_NAME: Array[String] = ["nitrogen", "oxygen", "carbondioxide"];
 const GAS_NAMEC: Array[String] = ["Nitrogen", "Oxygen", "Carbondioxide"];
 
 enum PHYSICS_LAYERS {Terrain = 1, Plant = 2};
+
+const RAY_LENGTH: int = 200;
+const GRID_COUNT_PER_EDGE: int = 20;

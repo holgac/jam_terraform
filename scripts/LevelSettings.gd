@@ -14,8 +14,8 @@ var mineral_replenish_rate: float = 0.05;
 var air_replenish_rate: float = 5.0;
 
 func _init(_default_grid_content: float = 10.0):
-	for i in range(GDConsts.MATERIAL.COUNT):
-		default_grid_contents[GDConsts.MATERIAL_NAME[i]] = _default_grid_content;
-	for i in range(GDConsts.GAS.COUNT):
-		default_air_contents[GDConsts.GAS_NAME[i]] = 1.0 / GDConsts.GAS.COUNT;
-		air_contents_increment[GDConsts.GAS_NAME[i]] = 0.0;
+  for i in range(GDConsts.MATERIAL.COUNT):
+    default_grid_contents[GDConsts.MATERIAL_NAME[i]] = _default_grid_content;
+  for i in range(GDConsts.GAS.COUNT):
+    default_air_contents[GDConsts.GAS_NAME[i]] = 1.0 / GDConsts.GAS.COUNT;
+    air_contents_increment[GDConsts.GAS_NAME[i]] = 0.0;

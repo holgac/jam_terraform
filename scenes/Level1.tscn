@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbn6t7eku77kq"]
+[gd_scene load_steps=8 format=3 uid="uid://cbn6t7eku77kq"]
 
 [ext_resource type="Script" path="res://scripts/Level1.gd" id="1_mj0sj"]
 [ext_resource type="PackedScene" uid="uid://bf7oi1v6hhcbm" path="res://models/terrain_water.glb" id="2_3c65o"]
-[ext_resource type="PackedScene" uid="uid://cjy488m58ja3d" path="res://scenes/GlobalSettings.tscn" id="2_7dsk4"]
 [ext_resource type="PackedScene" uid="uid://cthvwse2lt478" path="res://ui/HUD.tscn" id="3_vfmos"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="4_5scou"]
 [ext_resource type="Texture2D" uid="uid://ba0xr88kpeypq" path="res://textures/sky.png" id="6_owhlh"]
@@ -20,8 +19,6 @@ height = 150.0
 script = ExtResource("1_mj0sj")
 
 [node name="Terrain" parent="." instance=ExtResource("2_3c65o")]
-
-[node name="GlobalSettings" parent="." instance=ExtResource("2_7dsk4")]
 
 [node name="HUD" parent="." instance=ExtResource("3_vfmos")]
 
