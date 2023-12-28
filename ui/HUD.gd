@@ -53,7 +53,6 @@ func _bulldozer_selected():
 func _on_tree_type_selected(tree_type: GDTreeType):
   print("selected tree: ", tree_type.name)
   tree_type_selected.emit(tree_type);
-  #pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

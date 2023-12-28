@@ -9,9 +9,11 @@ class_name GDGrid
 var contents: Dictionary;
 var default_contents: Dictionary;
 
-func _init(level_settings: GDLevelSettings):
+func _init(level_settings: GDLevelSettings, type: String):
   contents = level_settings.default_grid_contents.duplicate();
   default_contents = level_settings.default_grid_contents.duplicate();
+  print('dominant type:', type)
+  # do per-type stuff here, reading types from GlobalSettings
 
 func replenish(level_settings: GDLevelSettings, time_coef: float):
   for mat in GDConsts.MATERIAL_NAME:

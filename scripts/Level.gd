@@ -9,7 +9,7 @@ var trees: Node3D;
 const TERRAIN_EDGE_LENGTH: int = 100;
 var POS_TO_GRID_MULT: float = GDConsts.GRID_COUNT_PER_EDGE * 1.0 / TERRAIN_EDGE_LENGTH;
 var is_cursor_on_ui: bool = false;
-var grids: Array[GDGrid] = [];
+var grid_map: GDGridMap;
 var level_settings: GDLevelSettings;
 var winning_conditions: GDWinningConditions;
 var air: GDAir;
@@ -32,11 +32,14 @@ func _base_ready():
   secondTimer.connect("timeout", _on_second_callback.bind(secondTimer.get_wait_time()));
   var replenishTimer: Timer = get_node("ReplenishTimer");
   replenishTimer.connect("timeout", _on_replenish_callback.bind(replenishTimer.get_wait_time()));
-  for x in range(GDConsts.GRID_COUNT_PER_EDGE):
-    for y in range(GDConsts.GRID_COUNT_PER_EDGE):
-      grids.append(GDGrid.new(level_settings));
+  _init_grid_map();
   air = GDAir.new(level_settings);
   HUD.show_air_info(air);
+
+func _init_grid_map():
+  grid_map = GDGridMap.new(level_settings, get_node('Terrain'));
+  var cam: GDCamera = camera.get_parent();
+  cam.terrain_size  = GDConsts.GRID_COUNT_PER_EDGE / grid_map.pos_to_grid_mult;
 
 func _on_level_won():
   pass
@@ -45,18 +48,16 @@ func _on_second_callback(delta: float):
   # process all existing trees
   for tree_node in trees.get_children():
     var tree: GDTree = tree_node;
-    var grid_pos = GDUtils.world_pos_to_grid(tree.position, POS_TO_GRID_MULT);
-    tree.grow(grids[GDUtils.to_grid_array_coords(grid_pos)], air, delta * GlobalSettings.time_coef);
+    var grid_pos = grid_map.world_pos_to_grid(tree.position);
+    tree.grow(grid_map.get_grid(grid_pos), air, delta * GlobalSettings.time_coef);
   air.replenish(level_settings, delta * GlobalSettings.time_coef);
   HUD.show_air_info(air);
   if winning_conditions.player_won(self):
     print('Player has passed this level!');
-    _on_level_won()
+    _on_level_won();
 
 func _on_replenish_callback(delta: float):
-  for i in range(GDConsts.GRID_COUNT_PER_EDGE * GDConsts.GRID_COUNT_PER_EDGE):
-    var grid: GDGrid = grids[i];
-    grid.replenish(level_settings, GlobalSettings.time_coef * delta);
+  grid_map.replenish(level_settings, delta);
 
 
 func _hud_mouse_entered():
@@ -89,21 +90,10 @@ func _tree_type_selected(tree_type: GDTreeType):
   selected_tree_entity.position = pos;
   add_child(selected_tree_entity);
 
-func _cast_ray(mask: int):
-  var space_state = get_world_3d().direct_space_state;
-  var mousepos = get_viewport().get_mouse_position();
-  var origin = camera.project_ray_origin(mousepos);
-  var end = origin + camera.project_ray_normal(mousepos) * GDConsts.RAY_LENGTH;
-  var query = PhysicsRayQueryParameters3D.create(origin, end);
-  # TODO: this isn't necessary? test and rm
-  query.collide_with_areas = true;
-  query.collision_mask = mask;
-  return space_state.intersect_ray(query);
-
 func _update_selected_tree_entity():
   if is_cursor_on_ui:
     return
-  var result = _cast_ray(GDConsts.PHYSICS_LAYERS.Terrain);
+  var result = GDUtils.cast_ray_from_camera(camera, GDConsts.PHYSICS_LAYERS.Terrain);
   var is_hovering_valid: bool = false;
   if result:
     var collider = result['collider'];
@@ -114,9 +104,8 @@ func _update_selected_tree_entity():
       is_hovering_valid = false;
     else:
       is_hovering_valid = true;
-    var grid_pos = GDUtils.world_pos_to_grid(result.position, POS_TO_GRID_MULT);
-    HUD.show_grid_info(grid_pos.x, grid_pos.y,
-      grids[GDUtils.to_grid_array_coords(grid_pos)]);
+    var grid_pos = grid_map.world_pos_to_grid(result.position);
+    HUD.show_grid_info(grid_pos.x, grid_pos.y, grid_map.get_grid(grid_pos));
   else:
     HUD.show_grid_info(-1, -1, null);
   if selected_tree_entity:
@@ -142,9 +131,9 @@ func _unselect_tree_type():
     selected_tree_entity.queue_free();
     selected_tree_entity = null;
     selected_tree_type = null;
-  
+
 func _bulldoze():
-  var result = _cast_ray(GDConsts.PHYSICS_LAYERS.Plant);
+  var result = GDUtils.cast_ray_from_camera(camera, GDConsts.PHYSICS_LAYERS.Plant);
   if not result:
     return;
   var collider = result['collider'];

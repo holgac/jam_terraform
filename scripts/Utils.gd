@@ -1,12 +1,14 @@
 class_name GDUtils
 
-static func to_grid_array_coords(pos: Vector2i):
-  return pos.y * GDConsts.GRID_COUNT_PER_EDGE + pos.x;
+static func cast_ray_from_camera(camera: Camera3D, mask: int):
+  var mousepos = camera.get_viewport().get_mouse_position();
+  var origin = camera.project_ray_origin(mousepos);
+  var end = origin + camera.project_ray_normal(mousepos) * GDConsts.RAY_LENGTH;
+  return cast_ray(origin, end, mask, camera.get_world_3d().direct_space_state)
 
-static func world_pos_to_grid(pos: Vector3, pos_to_grid_mult: float):
-  var grid_x: int = int(pos.x * pos_to_grid_mult);
-  # -z because our map goes from 0 to -TERRAIN_EDGE_LENGTH in z coords
-  var grid_y: int = int(-pos.z * pos_to_grid_mult);
-  return Vector2i(grid_x, grid_y);
-
-
+static func cast_ray(origin: Vector3, end: Vector3, mask: int, space_state: PhysicsDirectSpaceState3D):
+  var query = PhysicsRayQueryParameters3D.create(origin, end);
+  # TODO: this isn't necessary? test and rm
+  query.collide_with_areas = true;
+  query.collision_mask = mask;
+  return space_state.intersect_ray(query);
