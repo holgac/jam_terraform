@@ -3,6 +3,7 @@ class_name GDGlobalSettings
 
 const time_coef: float = 0.5;
 const growth_coef: float = 0.2;
+const CELL_MATERIAL_DRAW_COEF: float = 3.0;
 const TREE_TYPES_JSON: String = "res://data/trees.json";
 const TERRAIN_TYPES_JSON: String = "res://data/terrain.json";
 var tree_types: Array[GDTreeType] = [];

@@ -17,4 +17,7 @@ func _init(level_settings: GDLevelSettings, _type: String):
 
 func replenish(level_settings: GDLevelSettings, time_coef: float):
   for mat in GDConsts.MATERIAL_NAME:
-    contents[mat] += (default_contents[mat] - contents[mat]) * time_coef * level_settings.mineral_replenish_rate;
+    if contents[mat] > default_contents[mat]:
+      contents[mat] += 4 * (default_contents[mat] - contents[mat]) * time_coef * level_settings.mineral_replenish_rate;
+    else:
+      contents[mat] += (default_contents[mat] - contents[mat]) * time_coef * level_settings.mineral_replenish_rate;

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://wqvblb0o6c2v"]
+
+[ext_resource type="Script" path="res://scripts/Tree.gd" id="1_0pu2r"]
+[ext_resource type="PackedScene" uid="uid://dyj8gslc1auf1" path="res://models/tree_cactus.glb" id="2_muk74"]
+
+[node name="Tree" type="Node3D"]
+script = ExtResource("1_0pu2r")
+
+[node name="tree" parent="." instance=ExtResource("2_muk74")]

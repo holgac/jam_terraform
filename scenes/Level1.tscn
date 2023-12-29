@@ -37,10 +37,10 @@ omni_attenuation = 1e-05
 [node name="Trees" type="Node3D" parent="."]
 
 [node name="SecondTimer" type="Timer" parent="."]
+wait_time = 0.2
 autostart = true
 
 [node name="ReplenishTimer" type="Timer" parent="."]
-wait_time = 10.0
 autostart = true
 
 [node name="SkySphere" type="MeshInstance3D" parent="."]

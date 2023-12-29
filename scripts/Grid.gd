@@ -26,11 +26,17 @@ func _init(level_settings: GDLevelSettings, terrain: Node3D):
   var cell_size: float = (max_coords.x - min_coords.x) / GDConsts.CELL_COUNT_PER_EDGE;
   pos_to_grid_mult = 1.0 / cell_size;
   var ray_increment = cell_size / NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE;
+  var st: SurfaceTool = SurfaceTool.new();
+  st.begin(Mesh.PRIMITIVE_LINES)
+  st.set_uv(Vector2(0, 0));
+  st.set_normal(Vector3(0, 1, 0));
+
   for y in range(GDConsts.CELL_COUNT_PER_EDGE):
     for x in range(GDConsts.CELL_COUNT_PER_EDGE):
       var dominant_terrain_type: String;
       var max_terrain_counter: int = 0;
       var terrain_counters: Dictionary = {};
+      var max_height = -100.0;
       for i in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
         for j in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
           var pos: Vector3 = Vector3(
@@ -48,7 +54,16 @@ func _init(level_settings: GDLevelSettings, terrain: Node3D):
           if terrain_counters[ter.get_name()] > max_terrain_counter:
             max_terrain_counter = terrain_counters[ter.get_name()]
             dominant_terrain_type = ter.get_name();
+          max_height = max(max_height, result.position.y);
+      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -y * cell_size));
+      st.add_vertex(Vector3((x + 1) * cell_size, max_height + 0.1, -y * cell_size));
+      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -y * cell_size));
+      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -(y + 1) * cell_size));
       cells.append(GDCell.new(level_settings, dominant_terrain_type));
+  var mesh = st.commit();
+  var m = MeshInstance3D.new();
+  m.mesh = mesh;
+  terrain.add_child(m);
 
 
 func get_cell(pos: Vector2i):
@@ -56,9 +71,34 @@ func get_cell(pos: Vector2i):
 
 
 func replenish(level_settings: GDLevelSettings, delta: float):
-  for i in range(GDConsts.CELL_COUNT_PER_EDGE * GDConsts.CELL_COUNT_PER_EDGE):
-    var cell: GDCell = cells[i];
-    cell.replenish(level_settings, GlobalSettings.time_coef * delta);
+  for y in range(GDConsts.CELL_COUNT_PER_EDGE):
+    for x in range(GDConsts.CELL_COUNT_PER_EDGE):
+      var cell: GDCell = get_cell(Vector2(x, y));
+      var neighbours: Array[Vector2i] = []
+      if x > 0:
+        neighbours.append(Vector2i(x-1, y));
+      if y > 0:
+        neighbours.append(Vector2i(x, y-1));
+      if x < GDConsts.CELL_COUNT_PER_EDGE - 1:
+        neighbours.append(Vector2i(x+1, y));
+      if y < GDConsts.CELL_COUNT_PER_EDGE - 1:
+        neighbours.append(Vector2i(x, y+1));
+      for mat in GDConsts.MATERIAL_NAME:
+        var can_get_max = 0.25 * GlobalSettings.CELL_MATERIAL_DRAW_COEF * delta * (cell.default_contents[mat] - cell.contents[mat]) / cell.default_contents[mat];
+        for neighbour in neighbours:
+          var ncell = get_cell(neighbour);
+          var sup_power = ncell.contents[mat] / ncell.default_contents[mat];
+          var draw_amount = can_get_max * sup_power;
+          draw_amount = min(draw_amount, ncell.contents[mat]);
+          draw_amount = min(draw_amount, cell.default_contents[mat] - cell.contents[mat]);
+          if draw_amount > 0:
+            ncell.contents[mat] -= draw_amount;
+            cell.contents[mat] += draw_amount;
+
+  for y in range(GDConsts.CELL_COUNT_PER_EDGE):
+    for x in range(GDConsts.CELL_COUNT_PER_EDGE):
+      var cell: GDCell = get_cell(Vector2(x, y));
+      cell.replenish(level_settings, GlobalSettings.time_coef * delta);
 
 
 func world_pos_to_grid(pos: Vector3):

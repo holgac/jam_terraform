@@ -41,12 +41,25 @@
   "trunk_growth_coef": 1.8,
   "branch_growth_coef": 1.7,
   "display": {"branch": 2.5, "leaf": 3.0, "fruit": 7.0},
-  "material_usage": {"body":{"phosphorus": 0.5, "calcium":0.1}},
-  "material_production": {"branch":{"water": 0.5}},
+  "material_usage": {"body":{"phosphorus": 1.0, "calcium":0.2}},
+  "material_production": {"branch":{"water": 0.2}},
   "gas_usage": {"leaf":{"nitrogen": 0.05}},
   "gas_production": {"leaf":{"oxygen": 0.05}, "fruit":{"carbondioxide":0.01}},
   "texture": "res://textures/tree4.png",
   "mesh": "res://scenes/Tree4.tscn",
   "tooltip": "This is a very very very hungry tree"
+  },
+  {
+  "name": "cactus",
+  "trunk_growth_coef": 1.0,
+  "branch_growth_coef": 1.0,
+  "display": {"branch": 4.5, "leaf": 6.0, "fruit": 7.0},
+  "material_usage": {"body":{"phosphorus": 0.01}},
+  "material_production": {"branch":{"water": 0.5}},
+  "gas_usage": {"body":{"nitrogen": 0.05}},
+  "gas_production": {"leaf":{"oxygen": 0.03}, "fruit":{"carbondioxide":0.02}},
+  "texture": "res://textures/cactus.png",
+  "mesh": "res://scenes/Tree5.tscn",
+  "tooltip": "This is a very very very cactus"
   }
 ]

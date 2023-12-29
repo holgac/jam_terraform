@@ -25,11 +25,11 @@ func _consume_and_get_ratio(cell: GDCell, air: GDAir, time_coef: float):
     for mat in tree_type.material_usage.get(part, {}).keys():
       cell.contents[mat] -= ratio * tree_type.material_usage[part][mat] * time_coef
     for mat in tree_type.material_production.get(part, {}).keys():
-      cell.contents[mat] += ratio * tree_type.material_production[part][mat]
+      cell.contents[mat] += ratio * tree_type.material_production[part][mat] * time_coef
     for gas in tree_type.gas_usage.get(part, {}).keys():
       air.contents[gas] -= ratio * tree_type.gas_usage[part][gas] * time_coef
     for gas in tree_type.gas_production.get(part, {}).keys():
-      air.contents[gas] += ratio * tree_type.gas_production[part][gas]
+      air.contents[gas] += ratio * tree_type.gas_production[part][gas] * time_coef
   return ratio
 
 func grow(cell: GDCell, air: GDAir, time_coef: float, growth_coef: float):
