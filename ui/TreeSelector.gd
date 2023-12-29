@@ -13,7 +13,7 @@ func _ready():
   var material_production: Dictionary = {};
   var gas_usage: Dictionary = {};
   var gas_production: Dictionary = {};
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     for mat in tree_type.material_usage.get(part, {}).keys():
       material_usage[mat] = tree_type.material_usage[part][mat] + material_usage.get(mat, 0.0);
     for gas in tree_type.gas_usage.get(part, {}).keys():

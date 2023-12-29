@@ -9,7 +9,7 @@ const MAX_GROWTH: float = 10.0;
 
 func _consume_and_get_ratio(cell: GDCell, air: GDAir, time_coef: float):
   var ratio = 1.0;
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     if not parts[part].is_visible():
       continue
     for mat in tree_type.material_usage.get(part, {}).keys():
@@ -19,7 +19,7 @@ func _consume_and_get_ratio(cell: GDCell, air: GDAir, time_coef: float):
       if air.contents[gas] < tree_type.gas_usage[part][gas] * time_coef:
         ratio = min(ratio, air.contents[gas] / tree_type.gas_usage[part][gas] * time_coef);
   ratio = max(ratio, 0.0);
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     if not parts[part].is_visible():
       continue
     for mat in tree_type.material_usage.get(part, {}).keys():
@@ -42,7 +42,7 @@ func grow(cell: GDCell, air: GDAir, time_coef: float, growth_coef: float):
     growth = min(growth + time_coef * growth_coef, MAX_GROWTH);
 
   scale = growth * Vector3(tree_type.branch_growth_coef, tree_type.trunk_growth_coef, tree_type.branch_growth_coef);
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     if growth >= tree_type.display_on_growth.get(part, 0.0):
       parts[part].show();
     else:
@@ -50,6 +50,6 @@ func grow(cell: GDCell, air: GDAir, time_coef: float, growth_coef: float):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     parts[part] = get_node('tree/' + part);
 

@@ -13,7 +13,6 @@ var grid: GDGrid;
 var level_settings: GDLevelSettings;
 var winning_conditions: GDWinningConditions;
 var air: GDAir;
-var plant_count: Dictionary = {};
 enum HOVER_MODE {None, Plant, Bulldoze};
 var hover_mode: HOVER_MODE = HOVER_MODE.None;
 
@@ -45,14 +44,17 @@ func _on_level_won():
   pass
 
 func _on_second_callback(delta: float):
+  var plant_count: Dictionary = {};
   # process all existing trees
   for tree_node in trees.get_children():
     var tree: GDTree = tree_node;
     var grid_pos = grid.world_pos_to_grid(tree.position);
     tree.grow(grid.get_cell(grid_pos), air, delta * GlobalSettings.time_coef, GlobalSettings.growth_coef);
+    if tree.parts[GDConsts.PLANT_PART_NAME[GDConsts.PLANT_PART.Fruit]].is_visible():
+      plant_count[tree.tree_type.name] = plant_count.get(tree.tree_type.name, 0) + 1;
   air.replenish(level_settings, delta * GlobalSettings.time_coef);
   HUD.show_air_info(air);
-  if winning_conditions.player_won(self):
+  if winning_conditions.player_won(self, plant_count):
     print('Player has passed this level!');
     _on_level_won();
 
@@ -139,7 +141,6 @@ func _bulldoze():
   var collider = result['collider'];
   var tree = collider.get_parent().get_parent().get_parent();
   assert(tree is GDTree);
-  plant_count[tree.tree_type.name] -= 1;
   tree.queue_free();
 
 func _plant_tree(tree_type: GDTreeType, pos: Vector3):
@@ -147,6 +148,5 @@ func _plant_tree(tree_type: GDTreeType, pos: Vector3):
   new_entity.position = pos;
   new_entity.rotation = Vector3(0, 2 * PI * randf(), 0);
   new_entity.tree_type = tree_type;
-  plant_count[tree_type.name] = plant_count.get(tree_type.name, 0) + 1
   trees.add_child(new_entity)
 

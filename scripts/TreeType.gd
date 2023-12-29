@@ -18,12 +18,12 @@ static func _from_json(data: Variant) -> GDTreeType:
   res.trunk_growth_coef = data['trunk_growth_coef'] if 'trunk_growth_coef' in data else 1.0;
   res.branch_growth_coef = data['branch_growth_coef'] if 'branch_growth_coef' in data else 1.0;
 
-  for part in GDConsts.PARTS:
+  for part in GDConsts.PLANT_PART_NAME:
     res.display_on_growth[part] = 0.0
 
   if 'display' in data:
     var disp = data['display']
-    for part in GDConsts.PARTS:
+    for part in GDConsts.PLANT_PART_NAME:
       if part in disp:
         res.display_on_growth[part] = disp[part];
 

@@ -9,7 +9,7 @@ var max_air_contents: Dictionary;
 var min_plant_count: Dictionary;
 var max_plant_count: Dictionary;
 
-func player_won(level: GDLevel):
+func player_won(level: GDLevel, plant_count: Dictionary):
   var air_contents = level.air.get_normalized();
   for air in min_air_contents.keys():
     if air_contents[air] < min_air_contents[air]:
@@ -18,9 +18,9 @@ func player_won(level: GDLevel):
     if air_contents[air] > max_air_contents[air]:
       return false;
   for tree in min_plant_count.keys():
-    if level.plant_count.get(tree, 0) < min_plant_count[tree]:
+    if plant_count.get(tree, 0) < min_plant_count[tree]:
       return false;
   for tree in max_plant_count.keys():
-    if level.plant_count.get(tree, 0) > max_plant_count[tree]:
+    if plant_count.get(tree, 0) > max_plant_count[tree]:
       return false;
   return true;
