@@ -3,8 +3,8 @@ extends VBoxContainer
 class_name GDHUD;
 
 var trees_hbox: HBoxContainer;
-@onready var grid_info: Label = get_node("Game/GridInfo");
-@onready var air_info: Label = get_node("Game/AirInfo");
+@onready var grid_info: RichTextLabel = get_node("Game/GridInfo");
+@onready var air_info: RichTextLabel = get_node("Game/AirInfo");
 
 signal tree_type_selected(tree_type: GDTreeType);
 signal bulldozer_selected;
@@ -13,7 +13,8 @@ func show_air_info(air: GDAir):
   var air_contents: String = str('FPS: ', Engine.get_frames_per_second(), '\n');
   var normalized: Dictionary = air.get_normalized();
   for gas_id in range(GDConsts.GAS.COUNT):
-    air_contents += str(GDConsts.GAS_NAMEC[gas_id], ': ',
+    air_contents += str('[imgresize=64]', GDConsts.GAS_ICON[gas_id],
+        "[/imgresize] ", 
         str(100 * normalized[GDConsts.GAS_NAME[gas_id]]).pad_decimals(2), '%\n');
   air_info.set_text(air_contents);
 
@@ -27,9 +28,10 @@ func show_grid_info(grid_x: int, grid_y: int, cell: GDCell):
   # maybe use format string instead?
   var cell_contents: String = '';
   for mat_id in range(GDConsts.MATERIAL.COUNT):
-    cell_contents += str(GDConsts.MATERIAL_NAMEC[mat_id], ': ',
+    cell_contents += str('[imgresize=64]', GDConsts.MATERIAL_ICON[mat_id],
+        "[/imgresize] ", 
         str(cell.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(2), '\n');
-    
+
   grid_info.set_text(str(
     cell.type, ' ', grid_x, ',', grid_y, '\n',
     cell_contents

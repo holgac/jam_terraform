@@ -17,22 +17,28 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 9.0
 
-[node name="GridInfo" type="Label" parent="Game"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="GridInfo" type="RichTextLabel" parent="Game"]
+layout_mode = 1
+offset_right = 300.0
+offset_bottom = 40.0
+bbcode_enabled = true
 text = "Mat1: 100.0000"
+fit_content = true
+autowrap_mode = 0
 
-[node name="AirInfo" type="Label" parent="Game"]
+[node name="AirInfo" type="RichTextLabel" parent="Game"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -103.0
-offset_bottom = 75.0
+offset_left = -40.0
+offset_bottom = 40.0
 grow_horizontal = 0
-text = "Gas1: 10%
-Gas2: 20%"
+bbcode_enabled = true
+text = "Air stuff
+[imgresize=32]res://textures/back.png[/imgresize] Back"
+fit_content = true
+autowrap_mode = 0
 
 [node name="BackToMainMenu" type="TextureButton" parent="Game"]
 layout_mode = 1
