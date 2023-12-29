@@ -17,22 +17,22 @@ func show_air_info(air: GDAir):
         str(100 * normalized[GDConsts.GAS_NAME[gas_id]]).pad_decimals(2), '%\n');
   air_info.set_text(air_contents);
 
-func show_grid_info(grid_x: int, grid_y: int, grid: GDGrid):
-  if not grid:
-    grid_info.set_text('Hover over a grid to view its contents')
+func show_grid_info(grid_x: int, grid_y: int, cell: GDCell):
+  if not cell:
+    grid_info.set_text('Hover over a cell to view its contents')
     return
 
   # constructing a string each frame is bad.
   # can check if prev call used the same x, y and skip update
   # maybe use format string instead?
-  var grid_contents: String = '';
+  var cell_contents: String = '';
   for mat_id in range(GDConsts.MATERIAL.COUNT):
-    grid_contents += str(GDConsts.MATERIAL_NAMEC[mat_id], ': ',
-        str(grid.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(4), '\n');
+    cell_contents += str(GDConsts.MATERIAL_NAMEC[mat_id], ': ',
+        str(cell.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(4), '\n');
     
   grid_info.set_text(str(
-    'Grid ', grid_x, ',', grid_y, '\n',
-    grid_contents
+    cell.type, ' ', grid_x, ',', grid_y, '\n',
+    cell_contents
     ));
 
 # Called when the node enters the scene tree for the first time.

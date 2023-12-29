@@ -25,14 +25,14 @@ func _process(delta):
     movement.x = -movement_speed;
   if Input.is_action_pressed("camera_right"):
     movement.x = movement_speed;
+  var speed_coef: float = 1.0;
+  if Input.is_action_pressed("camera_boost"):
+    speed_coef = 5.0;
   if Input.is_action_pressed("camera_rotate_cw"):
-    rotate_y(rotate_speed * delta);
+    rotate_y(rotate_speed * delta * speed_coef);
   if Input.is_action_pressed("camera_rotate_ccw"):
-    rotate_y(-rotate_speed * delta);
+    rotate_y(-rotate_speed * delta * speed_coef);
   if movement.length_squared() > 0.1:
-    var speed_coef: float = 1.0;
-    if Input.is_action_pressed("camera_boost"):
-      speed_coef = 5.0;
     translate(movement * (delta * speed_coef));
     if position.x < -out_of_bounds_allowance:
       position.x = -out_of_bounds_allowance;

@@ -48,4 +48,3 @@ static func _from_json(data: Variant) -> GDTreeType:
   res.mesh = ResourceLoader.load(data['mesh'] if 'mesh' in data else 'res://scenes/Tree1.tscn');
   res.tooltip = data['tooltip'] if 'tooltip' in data else 'NO INFO FOUND';
   return res
-

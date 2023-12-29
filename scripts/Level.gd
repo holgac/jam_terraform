@@ -7,9 +7,9 @@ var HUD: GDHUD;
 var camera: Camera3D;
 var trees: Node3D;
 const TERRAIN_EDGE_LENGTH: int = 100;
-var POS_TO_GRID_MULT: float = GDConsts.GRID_COUNT_PER_EDGE * 1.0 / TERRAIN_EDGE_LENGTH;
+var POS_TO_GRID_MULT: float = GDConsts.CELL_COUNT_PER_EDGE * 1.0 / TERRAIN_EDGE_LENGTH;
 var is_cursor_on_ui: bool = false;
-var grid_map: GDGridMap;
+var grid: GDGrid;
 var level_settings: GDLevelSettings;
 var winning_conditions: GDWinningConditions;
 var air: GDAir;
@@ -37,9 +37,9 @@ func _base_ready():
   HUD.show_air_info(air);
 
 func _init_grid_map():
-  grid_map = GDGridMap.new(level_settings, get_node('Terrain'));
+  grid = GDGrid.new(level_settings, get_node('Terrain'));
   var cam: GDCamera = camera.get_parent();
-  cam.terrain_size  = GDConsts.GRID_COUNT_PER_EDGE / grid_map.pos_to_grid_mult;
+  cam.terrain_size  = GDConsts.CELL_COUNT_PER_EDGE / grid.pos_to_grid_mult;
 
 func _on_level_won():
   pass
@@ -48,8 +48,8 @@ func _on_second_callback(delta: float):
   # process all existing trees
   for tree_node in trees.get_children():
     var tree: GDTree = tree_node;
-    var grid_pos = grid_map.world_pos_to_grid(tree.position);
-    tree.grow(grid_map.get_grid(grid_pos), air, delta * GlobalSettings.time_coef);
+    var grid_pos = grid.world_pos_to_grid(tree.position);
+    tree.grow(grid.get_cell(grid_pos), air, delta * GlobalSettings.time_coef);
   air.replenish(level_settings, delta * GlobalSettings.time_coef);
   HUD.show_air_info(air);
   if winning_conditions.player_won(self):
@@ -57,7 +57,7 @@ func _on_second_callback(delta: float):
     _on_level_won();
 
 func _on_replenish_callback(delta: float):
-  grid_map.replenish(level_settings, delta);
+  grid.replenish(level_settings, delta);
 
 
 func _hud_mouse_entered():
@@ -104,8 +104,8 @@ func _update_selected_tree_entity():
       is_hovering_valid = false;
     else:
       is_hovering_valid = true;
-    var grid_pos = grid_map.world_pos_to_grid(result.position);
-    HUD.show_grid_info(grid_pos.x, grid_pos.y, grid_map.get_grid(grid_pos));
+    var grid_pos = grid.world_pos_to_grid(result.position);
+    HUD.show_grid_info(grid_pos.x, grid_pos.y, grid.get_cell(grid_pos));
   else:
     HUD.show_grid_info(-1, -1, null);
   if selected_tree_entity:
