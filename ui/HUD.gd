@@ -28,7 +28,7 @@ func show_grid_info(grid_x: int, grid_y: int, cell: GDCell):
   var cell_contents: String = '';
   for mat_id in range(GDConsts.MATERIAL.COUNT):
     cell_contents += str(GDConsts.MATERIAL_NAMEC[mat_id], ': ',
-        str(cell.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(4), '\n');
+        str(cell.contents[GDConsts.MATERIAL_NAME[mat_id]]).pad_decimals(2), '\n');
     
   grid_info.set_text(str(
     cell.type, ' ', grid_x, ',', grid_y, '\n',
