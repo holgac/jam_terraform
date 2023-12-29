@@ -3,20 +3,24 @@
     "potassium": 1.0,
     "phosphorus": 1.0,
     "calcium": 1.0,
+    "water": 1.0,
   },
   "water":{
     "potassium": 2.0,
     "phosphorus": 2.0,
     "calcium": 2.0,
+    "water": 5.0,
   },
   "fertile_land":{
     "potassium": 1.5,
     "phosphorus": 1.5,
     "calcium": 1.5,
+    "water": 2.0,
   },
   "desert":{
     "potassium": 0.2,
     "phosphorus": 0.3,
     "calcium": 1.5,
+    "water": 0.05,
   },
 }

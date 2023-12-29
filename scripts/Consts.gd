@@ -1,8 +1,8 @@
 class_name GDConsts;
 
-enum MATERIAL {Phosphorus, Potassium, Calcium, COUNT};
-const MATERIAL_NAME: Array[String] = ["phosphorus", "potassium", "calcium"];
-const MATERIAL_NAMEC: Array[String] = ["Phosphorus", "Potassium", "Calcium"];
+enum MATERIAL {Phosphorus, Potassium, Calcium, Water, COUNT};
+const MATERIAL_NAME: Array[String] = ["phosphorus", "potassium", "calcium", "water"];
+const MATERIAL_NAMEC: Array[String] = ["Phosphorus", "Potassium", "Calcium", "Water"];
 
 enum GAS {Nitrogen, Oxygen, Carbondioxide, COUNT};
 const GAS_NAME: Array[String] = ["nitrogen", "oxygen", "carbondioxide"];
