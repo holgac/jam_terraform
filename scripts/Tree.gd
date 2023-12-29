@@ -32,14 +32,14 @@ func _consume_and_get_ratio(cell: GDCell, air: GDAir, time_coef: float):
       air.contents[gas] += ratio * tree_type.gas_production[part][gas]
   return ratio
 
-func grow(cell: GDCell, air: GDAir, time_coef: float):
+func grow(cell: GDCell, air: GDAir, time_coef: float, growth_coef: float):
   var ratio = _consume_and_get_ratio(cell, air, time_coef);
   if ratio < 0.1:
-      growth = max(growth - time_coef, time_coef);
+      growth = max(growth - time_coef * growth_coef, time_coef * growth_coef);
   elif ratio < 0.99:
     pass
   else:
-    growth = min(growth + time_coef, MAX_GROWTH);
+    growth = min(growth + time_coef * growth_coef, MAX_GROWTH);
 
   scale = growth * Vector3(tree_type.branch_growth_coef, tree_type.trunk_growth_coef, tree_type.branch_growth_coef);
   for part in GDConsts.PARTS:

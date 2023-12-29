@@ -15,8 +15,8 @@ func _ready():
   _base_ready();
 
   var alert: AcceptDialog = get_node("Alert");
-  alert.set_title("Level 1: A New Beginning")
-  alert.set_text("In this mission, get at least 10% oxygen and plant 10 hungry trees.\nBeware that they're really hungry.")
+  alert.set_title("Level 1: A New Beginning");
+  alert.set_text("In this mission, get at least 10% oxygen and plant 10 hungry trees.\nBeware that they're really hungry.");
   alert.show();
   # alert.connect('canceled', alert.queue_free.bind());
   # alert.connect('confirmed', alert.queue_free.bind());

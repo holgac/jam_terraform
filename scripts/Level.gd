@@ -49,7 +49,7 @@ func _on_second_callback(delta: float):
   for tree_node in trees.get_children():
     var tree: GDTree = tree_node;
     var grid_pos = grid.world_pos_to_grid(tree.position);
-    tree.grow(grid.get_cell(grid_pos), air, delta * GlobalSettings.time_coef);
+    tree.grow(grid.get_cell(grid_pos), air, delta * GlobalSettings.time_coef, GlobalSettings.growth_coef);
   air.replenish(level_settings, delta * GlobalSettings.time_coef);
   HUD.show_air_info(air);
   if winning_conditions.player_won(self):
