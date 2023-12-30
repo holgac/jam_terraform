@@ -114,7 +114,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-color = Color(0.0862745, 0.639216, 1, 1)
+color = Color(0.396078, 0.333333, 0.513726, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="BottomBar"]
 layout_mode = 1

@@ -32,7 +32,7 @@ func _physics_process(_delta):
 func _on_level_won():
   var alert: AcceptDialog = get_node("Alert");
   alert.set_title("Level 2: The Old Island");
-  alert.set_text("You have finished the game!");
-  alert.connect('canceled', Session.goto_scene.bind(Session.MainMenuScene));
+  alert.set_text("Success! Move to the next mission!");
+  alert.connect('canceled', Session.goto_scene.bind(Session.Level3Scene));
   alert.connect('confirmed', Session.goto_scene.bind(Session.Level3Scene));
   alert.show();
