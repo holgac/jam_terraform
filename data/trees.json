@@ -10,7 +10,7 @@
 "gas_production": {"leaf":{"oxygen": 0.03}, "fruit":{"nitrogen":0.01}},
 "texture": "res://textures/tree1.png",
 "mesh": "res://scenes/Tree1.tscn",
-"tooltip": "Maple Tree is undemanding but it grows slowly"
+"tooltip": "Maple Tree is undemanding and resilient."
 },
 {
 "name": "Orange Tree",
@@ -22,7 +22,7 @@
 "gas_production": {"leaf":{"oxygen": 0.3}, "fruit":{"carbondioxide":0.01}},
 "texture": "res://textures/tree2.png",
 "mesh": "res://scenes/Tree2.tscn",
-"tooltip": "Orange Tree is a good source of Oxygen and it grows fast"
+"tooltip": "Orange Tree is a good source of Oxygen"
 },
 {
 "name": "Apple Tree",
@@ -35,7 +35,7 @@
 "gas_production": {"leaf":{"carbondioxide": 0.1}, "fruit":{"nitrogen":0.05}},
 "texture": "res://textures/tree3.png",
 "mesh": "res://scenes/Tree3.tscn",
-"tooltip": "Apple Tree is tall but it grows slowly"
+"tooltip": "Apple Tree is a good source of phosphorus."
 },
 {
 "name": "Pine Tree",
@@ -48,7 +48,7 @@
 "gas_production": {"leaf":{"oxygen": 0.15}, "fruit":{"carbondioxide":0.01}},
 "texture": "res://textures/tree4.png",
 "mesh": "res://scenes/Tree4.tscn",
-"tooltip": "Pine Tree grows fast but it depletes more resources"
+"tooltip": "Pine Tree is a great source of oxygen but it depletes more resources"
 },
 {
 "name": "Cactus",
@@ -61,7 +61,7 @@
 "gas_production": {"leaf":{"oxygen": 0.1}, "fruit":{"carbondioxide":0.05}},
 "texture": "res://textures/cactus.png",
 "mesh": "res://scenes/Tree5.tscn",
-"tooltip": "Cacti are resilient and replenishes water"
+"tooltip": "Cacti replenish water but require tons of calcium"
 },
 {
 "name": "Bean",
@@ -74,6 +74,6 @@
 "gas_production": {"leaf":{"nitrogen": 0.2}, "fruit":{"carbondioxide":0.02}},
 "texture": "res://textures/bean.png",
 "mesh": "res://scenes/Tree6.tscn",
-"tooltip": "Cacti are resilient and replenishes water"
+"tooltip": "Beans use oxygen but produce potassium."
 }
 ]

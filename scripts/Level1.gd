@@ -31,8 +31,7 @@ func _physics_process(_delta):
 
 func _on_level_won():
   var alert: AcceptDialog = get_node("Alert");
-  alert.set_title("Level 1: A New Beginning");
-  alert.set_text("You have passed this level, let's terraform the next terrain!");
+  alert.set_text("You have passed this level, let's use the info you've learned to terraform the next terrain!");
   alert.connect('canceled', Session.goto_scene.bind(Session.Level2Scene));
   alert.connect('confirmed', Session.goto_scene.bind(Session.Level2Scene));
   alert.show();

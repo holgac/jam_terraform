@@ -74,12 +74,12 @@ func _on_replenish_callback(delta: float):
 func _hud_mouse_entered():
   if selected_tree_entity:
     selected_tree_entity.show()
-    is_cursor_on_ui = false;
+  is_cursor_on_ui = false;
 
 func _hud_mouse_exited():
   if selected_tree_entity:
     selected_tree_entity.hide()
-    is_cursor_on_ui = true;
+  is_cursor_on_ui = true;
 
 func _base_physics_process():
   _update_selected_tree_entity();
@@ -109,7 +109,6 @@ func _update_selected_tree_entity():
   if result:
     var collider = result['collider'];
     var parent = collider.get_parent();
-    # TODO: can also do this via physics materials
     # TODO: this'll change when water plants are added
     if parent.name == 'water':
       is_hovering_valid = false;
