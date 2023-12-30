@@ -37,19 +37,6 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Start A New Game"
 
-[node name="Options" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -179.0
-offset_top = 308.0
-offset_right = 179.0
-offset_bottom = 371.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
-text = "Options"
-
 [node name="Credits" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 5
@@ -77,6 +64,5 @@ theme_override_font_sizes/font_size = 40
 text = "Exit :("
 
 [connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
-[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

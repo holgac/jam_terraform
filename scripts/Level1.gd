@@ -11,7 +11,7 @@ func _ready():
   level_settings.air_contents_increment[GDConsts.GAS_NAME[GDConsts.GAS.Carbondioxide]] = 5;
   winning_conditions = GDWinningConditions.new();
   winning_conditions.min_air_contents[GDConsts.GAS_NAME[GDConsts.GAS.Oxygen]] = 0.01;
-  winning_conditions.min_plant_count['hungry tree'] = 10;
+  winning_conditions.min_plant_count['Pine Tree'] = 10;
   _base_ready();
 
   var alert: AcceptDialog = get_node("Alert");

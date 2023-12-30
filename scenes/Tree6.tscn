@@ -7,3 +7,4 @@
 script = ExtResource("1_g1n7s")
 
 [node name="tree" parent="." instance=ExtResource("2_72n5u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)

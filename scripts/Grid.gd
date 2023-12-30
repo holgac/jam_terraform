@@ -61,7 +61,7 @@ func replenish(level_settings: GDLevelSettings, delta: float):
       if y < GDConsts.CELL_COUNT_PER_EDGE - 1:
         neighbours.append(Vector2i(x, y+1));
       for mat in GDConsts.MATERIAL_NAME:
-        var can_get_max = 0.25 * GlobalSettings.CELL_MATERIAL_DRAW_COEF * delta * (cell.default_contents[mat] - cell.contents[mat]) / cell.default_contents[mat];
+        var can_get_max = 0.25 * GlobalSettings.CELL_MATERIAL_DRAW_COEF * delta * (cell.default_contents[mat] - cell.contents[mat]);
         for neighbour in neighbours:
           var ncell = get_cell(neighbour);
           var sup_power = ncell.contents[mat] / ncell.default_contents[mat];
