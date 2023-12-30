@@ -8,6 +8,7 @@ const MainMenuScene: String = "res://scenes/MainMenu.tscn";
 const CreditsScene: String = "res://scenes/Credits.tscn";
 const Level1Scene: String = "res://scenes/Level1.tscn";
 const Level2Scene: String = "res://scenes/Level2.tscn";
+const Level3Scene: String = "res://scenes/Level3.tscn";
 
 func _ready():
   var root = get_tree().root;

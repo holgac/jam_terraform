@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://qxjjp1u046pe"]
+
+[ext_resource type="Script" path="res://scripts/Level3.gd" id="1_e3t0k"]
+[ext_resource type="PackedScene" uid="uid://4iugn55h3jfr" path="res://models/terrain_desert.glb" id="2_ilcdy"]
+[ext_resource type="PackedScene" uid="uid://cthvwse2lt478" path="res://ui/HUD.tscn" id="3_oi7rv"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="4_mdkok"]
+[ext_resource type="Texture2D" uid="uid://ba0xr88kpeypq" path="res://textures/sky.png" id="5_oky1j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nv7rw"]
+albedo_texture = ExtResource("5_oky1j")
+
+[sub_resource type="SphereMesh" id="SphereMesh_hm4u4"]
+material = SubResource("StandardMaterial3D_nv7rw")
+flip_faces = true
+radius = 300.0
+height = 150.0
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_e3t0k")
+
+[node name="Terrain" parent="." instance=ExtResource("2_ilcdy")]
+
+[node name="HUD" parent="." instance=ExtResource("3_oi7rv")]
+
+[node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+script = ExtResource("4_mdkok")
+
+[node name="Camera3D" type="Camera3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+omni_range = 500.0
+omni_attenuation = 1e-05
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="SecondTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="ReplenishTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="SkySphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -50)
+mesh = SubResource("SphereMesh_hm4u4")
+
+[node name="Alert" type="AcceptDialog" parent="."]
+title = "Level X"
+initial_position = 2
+size = Vector2i(313, 184)
+dialog_text = "AAAA
+AAA
+AAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAA"

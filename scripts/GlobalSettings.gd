@@ -1,7 +1,8 @@
 extends Node
 class_name GDGlobalSettings
 
-const time_coef: float = 0.5;
+const DEFAULT_TIME_COEF: float = 0.5;
+var time_coef: float = DEFAULT_TIME_COEF;
 const growth_coef: float = 0.2;
 const CELL_MATERIAL_DRAW_COEF: float = 3.0;
 const TREE_TYPES_JSON: String = "res://data/trees.json";
