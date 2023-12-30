@@ -14,6 +14,7 @@ enum PHYSICS_LAYERS {Terrain = 1, Plant = 2};
 
 const RAY_LENGTH: int = 200;
 const CELL_COUNT_PER_EDGE: int = 20;
+const GRID_LINE_COUNT_PER_CELL_EDGE = 4;
 
 enum PLANT_PART {Body, Branch, Leaf, Fruit};
 const PLANT_PART_NAME: Array[String] = ["body", "branch", "leaf", "fruit"];

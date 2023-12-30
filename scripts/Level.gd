@@ -24,6 +24,7 @@ func _base_ready():
   HUD = get_node("HUD");
   HUD.connect("tree_type_selected", _tree_type_selected);
   HUD.connect("bulldozer_selected", _bulldozer_selected);
+  HUD.connect("display_help", _display_alert);
   var gameView = HUD.get_node("Game")
   gameView.connect("mouse_entered", _hud_mouse_entered);
   gameView.connect("mouse_exited", _hud_mouse_exited);
@@ -34,6 +35,9 @@ func _base_ready():
   _init_grid_map();
   air = GDAir.new(level_settings);
   HUD.show_air_info(air);
+
+func _display_alert():
+  get_node("Alert").show()
 
 func _init_grid_map():
   grid = GDGrid.new(level_settings, get_node('Terrain'));

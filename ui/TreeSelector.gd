@@ -23,22 +23,28 @@ func _ready():
     for gas in tree_type.gas_production.get(part, {}).keys():
       gas_production[gas] = tree_type.gas_production[part][gas] + gas_production.get(gas, 0.0);
 
-  for mat in material_usage.keys():
-    var val = material_usage[mat];
+  for mat_id in range(GDConsts.MATERIAL.COUNT):
+    var mat = GDConsts.MATERIAL_NAME[mat_id];
+    var val = material_usage.get(mat, 0.0);
     if val > 0:
-      tooltip += str('\nNeeds ', val, " ", mat, " per sec");
-  for gas in gas_usage.keys():
-    var val = gas_usage[gas];
+      tooltip += str('\nNeeds ', val, ' [imgresize=32]', GDConsts.MATERIAL_ICON[mat_id], '[/imgresize]');
+  for gas_id in range(GDConsts.GAS.COUNT):
+    var gas = GDConsts.GAS_NAME[gas_id];
+    var val = gas_usage.get(gas, 0.0);
     if val > 0:
-      tooltip += str('\nNeeds ', val, " ", gas, " per sec");
-  for mat in material_production.keys():
-    var val = material_production[mat];
+      tooltip += str('\nNeeds ', val, ' [imgresize=32]', GDConsts.GAS_ICON[gas_id], '[/imgresize]');
+
+  for mat_id in range(GDConsts.MATERIAL.COUNT):
+    var mat = GDConsts.MATERIAL_NAME[mat_id];
+    var val = material_production.get(mat, 0.0);
     if val > 0:
-      tooltip += str('\nProduces ', val, " ", mat, " per sec");
-  for gas in gas_production.keys():
-    var val = gas_production[gas];
+      tooltip += str('\nProduces ', val, ' [imgresize=32]', GDConsts.MATERIAL_ICON[mat_id], '[/imgresize]');
+  for gas_id in range(GDConsts.GAS.COUNT):
+    var gas = GDConsts.GAS_NAME[gas_id];
+    var val = gas_production.get(gas, 0.0);
     if val > 0:
-      tooltip += str('\nProduces ', val, " ", gas, " per sec");
+      tooltip += str('\nProduces ', val, ' [imgresize=32]', GDConsts.GAS_ICON[gas_id], '[/imgresize]');
+
   texture.set_tooltip_text(tooltip);
   var label = get_node("Name");
   label.set_text(tree_type.name);

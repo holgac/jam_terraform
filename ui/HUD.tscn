@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cthvwse2lt478"]
+[gd_scene load_steps=5 format=3 uid="uid://cthvwse2lt478"]
 
 [ext_resource type="Script" path="res://ui/HUD.gd" id="1_whenc"]
 [ext_resource type="PackedScene" uid="uid://carhs4f3gev77" path="res://ui/Bulldozer.tscn" id="2_73knr"]
 [ext_resource type="Texture2D" uid="uid://205je8ij58n0" path="res://textures/back.png" id="2_a14i3"]
+[ext_resource type="Texture2D" uid="uid://b628sq7vi7nai" path="res://textures/question_mark.png" id="3_q0bxt"]
 
 [node name="HUD" type="VBoxContainer"]
 anchors_preset = 15
@@ -47,12 +48,29 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -20.0
-offset_bottom = 20.0
+offset_left = -39.0
+offset_top = 218.0
+offset_right = 1.0
+offset_bottom = 258.0
 grow_horizontal = 0
 grow_vertical = 2
 texture_normal = ExtResource("2_a14i3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="DisplayHelp" type="TextureButton" parent="Game"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 33.0
+offset_bottom = 73.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("3_q0bxt")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -88,3 +106,5 @@ size_flags_vertical = 3
 
 [node name="Bulldozer" parent="BottomBar/ScrollContainer/HBoxContainer" instance=ExtResource("2_73knr")]
 layout_mode = 2
+
+[connection signal="pressed" from="Game/DisplayHelp" to="." method="_on_display_help_pressed"]

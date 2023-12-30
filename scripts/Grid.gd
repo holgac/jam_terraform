@@ -23,7 +23,7 @@ func _init(level_settings: GDLevelSettings, terrain: Node3D):
       max(max_coords.y, aabb.position.y + aabb.size.y),
       max(max_coords.z, aabb.position.z + aabb.size.z),
     );
-  var cell_size: float = (max_coords.x - min_coords.x) / GDConsts.CELL_COUNT_PER_EDGE;
+  var cell_size: float = int((max_coords.x - min_coords.x) / GDConsts.CELL_COUNT_PER_EDGE);
   pos_to_grid_mult = 1.0 / cell_size;
   var ray_increment = cell_size / NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE;
   var st: SurfaceTool = SurfaceTool.new();
@@ -33,32 +33,9 @@ func _init(level_settings: GDLevelSettings, terrain: Node3D):
 
   for y in range(GDConsts.CELL_COUNT_PER_EDGE):
     for x in range(GDConsts.CELL_COUNT_PER_EDGE):
-      var dominant_terrain_type: String;
-      var max_terrain_counter: int = 0;
-      var terrain_counters: Dictionary = {};
-      var max_height = -100.0;
-      for i in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
-        for j in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
-          var pos: Vector3 = Vector3(
-          ray_increment * 0.5 + cell_size * x + ray_increment * i,
-          max_coords.y + 1,
-          -ray_increment * 0.5 - cell_size * y - ray_increment * j);
-          var result = GDUtils.cast_ray(
-            pos,
-            Vector3(pos.x, min_coords.y - 1.0, pos.z),
-            GDConsts.PHYSICS_LAYERS.Terrain,
-            terrain.get_world_3d().direct_space_state);
-          assert(result, "Invalid terrain!")
-          var ter: Node = result['collider'].get_parent();
-          terrain_counters[ter.get_name()] = terrain_counters.get(ter.get_name(), 0) + 1;
-          if terrain_counters[ter.get_name()] > max_terrain_counter:
-            max_terrain_counter = terrain_counters[ter.get_name()]
-            dominant_terrain_type = ter.get_name();
-          max_height = max(max_height, result.position.y);
-      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -y * cell_size));
-      st.add_vertex(Vector3((x + 1) * cell_size, max_height + 0.1, -y * cell_size));
-      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -y * cell_size));
-      st.add_vertex(Vector3(x * cell_size, max_height + 0.1, -(y + 1) * cell_size));
+      _create_grid_lines(cell_size, terrain, x, y, min_coords.y - 1, max_coords.y + 1, st);
+      var dominant_terrain_type = _get_dominant_terrain_type(
+        cell_size, terrain, x, y, min_coords.y - 1, max_coords.y + 1);
       cells.append(GDCell.new(level_settings, dominant_terrain_type));
   var mesh = st.commit();
   var m = MeshInstance3D.new();
@@ -109,3 +86,53 @@ func world_pos_to_grid(pos: Vector3):
 
 func _to_grid_array_coords(pos: Vector2i):
   return pos.y * GDConsts.CELL_COUNT_PER_EDGE + pos.x;
+
+func _get_dominant_terrain_type(cell_size: float, terrain: Node3D, x: int, y: int, min_height: float, max_height: float):
+  var ray_increment = cell_size / NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE;
+  var terrain_counters: Dictionary = {};
+  var dominant_terrain_type: String;
+  var max_terrain_counter: int = 0;
+
+  for i in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
+    for j in range(NUM_RAYS_TO_DETERMINE_TERRAIN_TYPE):
+      var pos: Vector3 = Vector3(
+      ray_increment * 0.5 + cell_size * x + ray_increment * i,
+      max_height,
+      -ray_increment * 0.5 - cell_size * y - ray_increment * j);
+      var result = GDUtils.cast_ray(
+        pos,
+        Vector3(pos.x, min_height, pos.z),
+        GDConsts.PHYSICS_LAYERS.Terrain,
+        terrain.get_world_3d().direct_space_state);
+      assert(result, "Invalid terrain!")
+      var ter: Node = result['collider'].get_parent();
+      terrain_counters[ter.get_name()] = terrain_counters.get(ter.get_name(), 0) + 1;
+      if terrain_counters[ter.get_name()] > max_terrain_counter:
+        max_terrain_counter = terrain_counters[ter.get_name()]
+        dominant_terrain_type = ter.get_name();
+  return dominant_terrain_type;
+
+func _create_grid_lines(cell_size: float, terrain: Node3D, x: int, y: int, min_height: float, max_height: float, st: SurfaceTool):
+  var line_increment = cell_size / GDConsts.GRID_LINE_COUNT_PER_CELL_EDGE;
+  var init_pos: Vector3 = Vector3(x * cell_size, max_height, -y * cell_size);
+  var result = GDUtils.cast_ray(init_pos, Vector3(init_pos.x + 0.001, min_height, init_pos.z - 0.001),
+        GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
+  init_pos.y = result.position.y;
+  var prev_pos: Vector3 = init_pos;
+  for i in range(GDConsts.GRID_LINE_COUNT_PER_CELL_EDGE):
+    var pos: Vector3 = Vector3(x * cell_size, max_height, -y * cell_size - (i + 1) * line_increment + 0.001);
+    result = GDUtils.cast_ray(pos, Vector3(pos.x, min_height, pos.z),
+          GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
+    pos.y = result.position.y
+    st.add_vertex(Vector3(prev_pos.x, prev_pos.y + 0.2, prev_pos.z));
+    st.add_vertex(Vector3(pos.x, pos.y + 0.2, pos.z));
+    prev_pos = pos;
+  prev_pos = init_pos;
+  for i in range(GDConsts.GRID_LINE_COUNT_PER_CELL_EDGE):
+    var pos: Vector3 = Vector3(x * cell_size + (i + 1) * line_increment, max_height, -y * cell_size);
+    result = GDUtils.cast_ray(pos, Vector3(pos.x, min_height, pos.z),
+          GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
+    pos.y = result.position.y
+    st.add_vertex(Vector3(prev_pos.x, prev_pos.y + 0.2, prev_pos.z));
+    st.add_vertex(Vector3(pos.x, pos.y + 0.2, pos.z));
+    prev_pos = pos;
