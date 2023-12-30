@@ -2,9 +2,9 @@
 
 [node name="RichTextLabel" type="RichTextLabel"]
 offset_left = 4.0
-offset_top = 4.0
+offset_top = 100.0
 offset_right = 280.0
-offset_bottom = 96.0
+offset_bottom = 192.0
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "[imgresize=64]res://textures/img_oxygen.png[/imgresize]"

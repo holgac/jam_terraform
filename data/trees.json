@@ -74,6 +74,6 @@
 "gas_production": {"leaf":{"oxygen": 0.15}, "fruit":{"carbondioxide":0.02}},
 "texture": "res://textures/bean.png",
 "mesh": "res://scenes/Tree6.tscn",
-"tooltip": "Cacti are resilient and replenishes water"
+"tooltip": "Beans are nice"
 }
 ]

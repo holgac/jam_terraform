@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://crics5ptu5tuu"]
+
+[ext_resource type="Texture2D" uid="uid://bil4l2p6bapsm" path="res://textures/devteam.jpg" id="1_crrew"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kj703"]
+albedo_texture = ExtResource("1_crrew")
+
+[sub_resource type="QuadMesh" id="QuadMesh_674pt"]
+size = Vector2(30, 20)
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.4517, 0, -207.864)
+material_override = SubResource("StandardMaterial3D_kj703")
+mesh = SubResource("QuadMesh_674pt")

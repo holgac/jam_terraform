@@ -15,6 +15,8 @@ var winning_conditions: GDWinningConditions;
 var air: GDAir;
 enum HOVER_MODE {None, Plant, Bulldoze};
 var hover_mode: HOVER_MODE = HOVER_MODE.None;
+@onready var tree_player: AudioStreamPlayer = get_node('TreePlayer');
+@onready var bulldozer_player: AudioStreamPlayer = get_node('BulldozerPlayer');
 
 func _base_ready():
   assert(level_settings, "Level should set level_settings before calling _base_ready!");
@@ -147,6 +149,7 @@ func _bulldoze():
   var tree = collider.get_parent().get_parent().get_parent();
   assert(tree is GDTree);
   tree.queue_free();
+  bulldozer_player.play();
 
 func _plant_tree(tree_type: GDTreeType, pos: Vector3):
   var new_entity: GDTree = tree_type.mesh.instantiate();
@@ -154,4 +157,5 @@ func _plant_tree(tree_type: GDTreeType, pos: Vector3):
   new_entity.rotation = Vector3(0, 2 * PI * randf(), 0);
   new_entity.tree_type = tree_type;
   trees.add_child(new_entity)
+  tree_player.play();
 

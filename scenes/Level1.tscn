@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbn6t7eku77kq"]
+[gd_scene load_steps=12 format=3 uid="uid://cbn6t7eku77kq"]
 
 [ext_resource type="Script" path="res://scripts/Level1.gd" id="1_mj0sj"]
 [ext_resource type="PackedScene" uid="uid://dgnjgadkcn0ga" path="res://models/terrain.glb" id="2_qll5a"]
 [ext_resource type="PackedScene" uid="uid://cthvwse2lt478" path="res://ui/HUD.tscn" id="3_vfmos"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="4_5scou"]
 [ext_resource type="Texture2D" uid="uid://ba0xr88kpeypq" path="res://textures/sky.png" id="6_owhlh"]
+[ext_resource type="AudioStream" uid="uid://cwumeiywocw5f" path="res://sounds/terrain_sound.mp3" id="6_vc417"]
+[ext_resource type="AudioStream" uid="uid://c38fvmp6nfm67" path="res://sounds/tree_sound.mp3" id="8_06c58"]
+[ext_resource type="AudioStream" uid="uid://dompjor7svw4i" path="res://sounds/bulldozer_sound.mp3" id="8_0538t"]
+[ext_resource type="PackedScene" uid="uid://crics5ptu5tuu" path="res://scenes/devteam.tscn" id="9_d2tf7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nv7rw"]
 albedo_texture = ExtResource("6_owhlh")
@@ -56,3 +60,14 @@ AAA
 AAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAA"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_vc417")
+
+[node name="TreePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_06c58")
+
+[node name="BulldozerPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_0538t")
+
+[node name="MeshInstance3D" parent="." instance=ExtResource("9_d2tf7")]
