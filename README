@@ -1,6 +1,6 @@
 The game: https://holgac.itch.io/jam-terraform
 
-This is a contestant of https://itch.io/jam/chrismas-game-jam. We made it in around 5 days.
+This is a game for https://itch.io/jam/chrismas-game-jam. We made it in around 5 days.
 
 In this game, you need to terraform the given terrains using the plants at your disposal. Hover over the plants in the bottom menu to see what they produce and consume. Note that some of the production and consumption only happens when the plants grow to a certain level.
 
@@ -13,3 +13,4 @@ Rotation: ZC
 Good luck!
 
 PS: This is my first godot project, some of my practices may not be optimal.
+

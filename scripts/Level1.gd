@@ -16,7 +16,7 @@ func _ready():
 
   var alert: AcceptDialog = get_node("Alert");
   alert.set_title("Level 1: A New Beginning");
-  alert.set_text("In this mission, grow 10 Pine Trees to fruition and get atmosphere oxygen content to 1%.\nPine Trees are very resource heavy, you need to create an ecosystem that produces those resources.");
+  alert.set_text("In this mission, grow 10 Pine Trees to fruition and get atmosphere oxygen content to 1%.\nPine Trees are very resource heavy, you need to create an ecosystem that produces those resources.\nThink carefully and experiment instead of spamming trees around.");
   alert.show();
   # alert.connect('canceled', alert.queue_free.bind());
   # alert.connect('confirmed', alert.queue_free.bind());

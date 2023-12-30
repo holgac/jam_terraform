@@ -7,7 +7,7 @@
 "material_usage": {"body":{"potassium": 0.01, "water": 0.1}},
 "material_production": {"branch":{"calcium":0.5, "water":0.1}},
 "gas_usage": {"leaf":{"carbondioxide": 0.05}},
-"gas_production": {"leaf":{"oxygen": 0.05}, "fruit":{"nitrogen":0.01}},
+"gas_production": {"leaf":{"oxygen": 0.03}, "fruit":{"nitrogen":0.01}},
 "texture": "res://textures/tree1.png",
 "mesh": "res://scenes/Tree1.tscn",
 "tooltip": "Maple Tree is undemanding but it grows slowly"
@@ -55,10 +55,10 @@
 "trunk_growth_coef": 1.0,
 "branch_growth_coef": 1.0,
 "display": {"branch": 4.5, "leaf": 6.0, "fruit": 7.0},
-"material_usage": {"body":{"calcium": 2}},
-"material_production": {"branch":{"water": 0.5, "potassium": 0.1}},
+"material_usage": {"body":{"calcium": 2, "potassium": 0.05}},
+"material_production": {"branch":{"water": 0.5}},
 "gas_usage": {"body":{"nitrogen": 0.05}},
-"gas_production": {"leaf":{"oxygen": 0.1}, "fruit":{"carbondioxide":0.02}},
+"gas_production": {"leaf":{"oxygen": 0.1}, "fruit":{"carbondioxide":0.05}},
 "texture": "res://textures/cactus.png",
 "mesh": "res://scenes/Tree5.tscn",
 "tooltip": "Cacti are resilient and replenishes water"
@@ -68,12 +68,12 @@
 "trunk_growth_coef": 1.0,
 "branch_growth_coef": 1.0,
 "display": {"branch": 4.5, "leaf": 6.0, "fruit": 7.0},
-"material_usage": {"body":{"calcium": 0.09}},
-"material_production": {"branch":{"potassium": 0.5}},
-"gas_usage": {"body":{"nitrogen": 0.05}},
-"gas_production": {"leaf":{"oxygen": 0.15}, "fruit":{"carbondioxide":0.02}},
+"material_usage": {"body":{"calcium": 0.1}},
+"material_production": {"branch":{"potassium": 0.05}},
+"gas_usage": {"body":{"oxygen": 0.05}},
+"gas_production": {"leaf":{"nitrogen": 0.2}, "fruit":{"carbondioxide":0.02}},
 "texture": "res://textures/bean.png",
 "mesh": "res://scenes/Tree6.tscn",
-"tooltip": "Beans are nice"
+"tooltip": "Cacti are resilient and replenishes water"
 }
 ]

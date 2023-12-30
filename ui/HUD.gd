@@ -56,7 +56,7 @@ func _ready():
     trees_hbox.add_child(selector);
   get_node('BottomBar/ScrollContainer/HBoxContainer/Bulldozer').connect('pressed', _bulldozer_selected);
   get_node('Game/BackToMainMenu').connect('pressed', Session.goto_scene.bind(Session.MainMenuScene));
-  get_node('Game/SpeedSlider').set_value(GlobalSettings.time_coef);
+  get_node('Game/SpeedSlider').set_value(GlobalSettings.DEFAULT_TIME_COEF);
 
 func _bulldozer_selected():
   bulldozer_selected.emit();
