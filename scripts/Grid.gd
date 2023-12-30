@@ -114,7 +114,7 @@ func _get_dominant_terrain_type(cell_size: float, terrain: Node3D, x: int, y: in
 
 func _create_grid_lines(cell_size: float, terrain: Node3D, x: int, y: int, min_height: float, max_height: float, st: SurfaceTool):
   var line_increment = cell_size / GDConsts.GRID_LINE_COUNT_PER_CELL_EDGE;
-  var init_pos: Vector3 = Vector3(x * cell_size, max_height, -y * cell_size);
+  var init_pos: Vector3 = Vector3(x * cell_size + 0.01, max_height, -y * cell_size - 0.01);
   var result = GDUtils.cast_ray(init_pos, Vector3(init_pos.x + 0.001, min_height, init_pos.z - 0.001),
         GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
   init_pos.y = result.position.y;
@@ -129,7 +129,7 @@ func _create_grid_lines(cell_size: float, terrain: Node3D, x: int, y: int, min_h
     prev_pos = pos;
   prev_pos = init_pos;
   for i in range(GDConsts.GRID_LINE_COUNT_PER_CELL_EDGE):
-    var pos: Vector3 = Vector3(x * cell_size + (i + 1) * line_increment, max_height, -y * cell_size);
+    var pos: Vector3 = Vector3(x * cell_size + (i + 1) * line_increment - 0.01, max_height, -y * cell_size);
     result = GDUtils.cast_ray(pos, Vector3(pos.x, min_height, pos.z),
           GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
     pos.y = result.position.y
