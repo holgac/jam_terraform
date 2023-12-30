@@ -42,3 +42,7 @@ func _process(delta):
       position.z = out_of_bounds_allowance;
     if position.z < -terrain_size - out_of_bounds_allowance:
       position.z = -terrain_size - out_of_bounds_allowance;
+    if position.y < -5:
+      position.y = -5;
+    if position.y > 100:
+      position.y = 100;

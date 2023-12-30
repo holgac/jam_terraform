@@ -132,7 +132,7 @@ func _create_grid_lines(cell_size: float, terrain: Node3D, x: int, y: int, min_h
     var pos: Vector3 = Vector3(x * cell_size + (i + 1) * line_increment - 0.01, max_height, -y * cell_size);
     result = GDUtils.cast_ray(pos, Vector3(pos.x, min_height, pos.z),
           GDConsts.PHYSICS_LAYERS.Terrain, terrain.get_world_3d().direct_space_state);
-    pos.y = result.position.y
+    pos.y = result.position.y;
     st.add_vertex(Vector3(prev_pos.x, prev_pos.y + 0.2, prev_pos.z));
     st.add_vertex(Vector3(pos.x, pos.y + 0.2, pos.z));
     prev_pos = pos;
