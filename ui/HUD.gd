@@ -5,6 +5,8 @@ class_name GDHUD;
 var trees_hbox: HBoxContainer;
 @onready var grid_info: RichTextLabel = get_node("Game/GridInfo");
 @onready var air_info: RichTextLabel = get_node("Game/AirInfo");
+@onready var speed_label: Label = get_node("Game/SpeedLabel");
+
 
 signal tree_type_selected(tree_type: GDTreeType);
 signal bulldozer_selected;
@@ -49,6 +51,7 @@ func _ready():
     trees_hbox.add_child(selector);
   get_node('BottomBar/ScrollContainer/HBoxContainer/Bulldozer').connect('pressed', _bulldozer_selected);
   get_node('Game/BackToMainMenu').connect('pressed', Session.goto_scene.bind(Session.MainMenuScene));
+  get_node('Game/SpeedSlider').set_value(GlobalSettings.time_coef);
 
 func _bulldozer_selected():
   bulldozer_selected.emit();
@@ -64,3 +67,8 @@ func _process(_delta):
 
 func _on_display_help_pressed():
   display_help.emit();
+
+
+func _on_speed_slider_value_changed(value):
+  GlobalSettings.time_coef = value;
+  speed_label.set_text(str('Speed: ', value));

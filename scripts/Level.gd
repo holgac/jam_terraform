@@ -35,6 +35,7 @@ func _base_ready():
   _init_grid_map();
   air = GDAir.new(level_settings);
   HUD.show_air_info(air);
+  GlobalSettings.time_coef = GlobalSettings.DEFAULT_TIME_COEF;
 
 func _display_alert():
   get_node("Alert").show()
