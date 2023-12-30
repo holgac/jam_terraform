@@ -6,11 +6,16 @@ var trees_hbox: HBoxContainer;
 @onready var grid_info: RichTextLabel = get_node("Game/GridInfo");
 @onready var air_info: RichTextLabel = get_node("Game/AirInfo");
 @onready var speed_label: Label = get_node("Game/SpeedLabel");
+@onready var progress_label: RichTextLabel = get_node("Game/ProgressLabel");
 
 
 signal tree_type_selected(tree_type: GDTreeType);
 signal bulldozer_selected;
 signal display_help;
+
+func show_progress_info(message: String):
+  progress_label.set_text(message);
+
 
 func show_air_info(air: GDAir):
   var air_contents: String = str('FPS: ', Engine.get_frames_per_second(), '\n');

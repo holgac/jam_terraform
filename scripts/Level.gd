@@ -64,6 +64,8 @@ func _on_second_callback(delta: float):
   if winning_conditions.player_won(self, plant_count):
     print('Player has passed this level!');
     _on_level_won();
+  else:
+    HUD.show_progress_info(winning_conditions.get_progress_message(self, plant_count))
 
 func _on_replenish_callback(delta: float):
   grid.replenish(level_settings, delta);

@@ -24,3 +24,40 @@ func player_won(level: GDLevel, plant_count: Dictionary):
     if plant_count.get(tree, 0) > max_plant_count[tree]:
       return false;
   return true;
+
+func get_progress_message(level: GDLevel, plant_count: Dictionary):
+  var msg: String = '';
+  var air_contents = level.air.get_normalized();
+  for gas_id in GDConsts.GAS.COUNT:
+    var gas = GDConsts.GAS_NAME[gas_id];
+    if gas in min_air_contents:
+      msg += str('[imgresize=32]', GDConsts.GAS_ICON[gas_id], '[/imgresize] > ', min_air_contents[gas] * 100, '%');
+      if air_contents[gas] < min_air_contents[gas]:
+        msg += str('[imgresize=32]res://textures/cross.png[/imgresize]');
+      else:
+        msg += str('[imgresize=32]res://textures/check.png[/imgresize]');
+      msg += '\n';
+    if gas in max_air_contents:
+      msg += str('[imgresize=32]', GDConsts.GAS_ICON[gas_id], '[/imgresize] < ', max_air_contents[gas] * 100, '%');
+      if air_contents[gas] > max_air_contents[gas]:
+        msg += str('[imgresize=32]res://textures/cross.png[/imgresize]');
+      else:
+        msg += str('[imgresize=32]res://textures/check.png[/imgresize]');
+      msg += '\n';
+
+  for tree in min_plant_count.keys():
+    var cnt = plant_count.get(tree, 0);
+    msg += str(tree, ': ', cnt, ' > ', min_plant_count[tree])
+    if cnt < min_plant_count[tree]:
+      msg += str('[imgresize=32]res://textures/cross.png[/imgresize]');
+    else:
+      msg += str('[imgresize=32]res://textures/check.png[/imgresize]');
+  for tree in max_plant_count.keys():
+    var cnt = plant_count.get(tree, 0);
+    msg += str(tree, ': ', cnt, ' < ', max_plant_count[tree])
+    if cnt > max_plant_count[tree]:
+      msg += str('[imgresize=32]res://textures/cross.png[/imgresize]');
+    else:
+      msg += str('[imgresize=32]res://textures/check.png[/imgresize]');
+  return msg;
+  
